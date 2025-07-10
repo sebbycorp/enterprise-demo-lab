@@ -1,0 +1,129 @@
+name: s2
+
+topology:
+  kinds:
+    ceos:
+      startup-config: /home/batman/Documents/arista-lab/ceos_lab_template/ceos.cfg.tpl
+      image: sebbycorp/ceosimage:4.33.4M
+      exec:
+        - sleep 25
+        - FastCli -p 15 -c 'security pki key generate rsa 4096 eAPI.key'
+        - FastCli -p 15 -c 'security pki certificate generate self-signed eAPI.crt key eAPI.key generate rsa 4096 validity 30000 parameters common-name eAPI'
+    linux:
+      image: alpine-demo
+  nodes:
+    dc1_spine1:
+      kind: ceos
+      mgmt-ipv4: 172.100.100.2
+    dc1_spine2:
+      kind: ceos
+      mgmt-ipv4: 172.100.100.3
+    dc1_leaf1a:
+      kind: ceos
+      mgmt-ipv4: 172.100.100.4
+    dc1_leaf1b:
+      kind: ceos
+      mgmt-ipv4: 172.100.100.5
+    dc1_leaf2a:
+      kind: ceos
+      mgmt-ipv4: 172.100.100.6
+    dc1_leaf2b:
+      kind: ceos
+      mgmt-ipv4: 172.100.100.7
+    dc1_client1:
+      kind: linux
+      mgmt-ipv4: 172.100.100.8
+      env:
+        TMODE: lacp
+    dc1_client2:
+      kind: linux
+      mgmt-ipv4: 172.100.100.9
+      env:
+        TMODE: lacp
+    dc1_client3:
+      kind: linux
+      mgmt-ipv4: 172.100.100.10
+      env:
+        TMODE: lacp
+    dc1_client4:
+      kind: linux
+      mgmt-ipv4: 172.100.100.11
+      env:
+        TMODE: lacp
+    dc1_vyos01:
+      kind: linux
+      image: muruu1/vyos:latest
+      cmd: /sbin/init
+      mgmt-ipv4: 172.100.100.12
+      binds:
+        - /lib/modules:/lib/modules
+    dc1_vyos02:
+      kind: linux
+      image: muruu1/vyos:latest
+      cmd: /sbin/init
+      mgmt-ipv4: 172.100.100.13
+      binds:
+        - /lib/modules:/lib/modules
+    dc1_haproxy1:
+      kind: linux
+      mgmt-ipv4: 172.100.100.14
+      env:
+        TMODE: lacp
+      binds:
+        - haproxy/haproxy1.cfg:/usr/local/etc/haproxy/haproxy.cfg
+        - haproxy/teamd.conf:/etc/teamd.conf
+        - haproxy/snmpd.conf:/etc/snmp/snmpd.conf
+        - haproxy/haproxy_snmp.sh:/usr/local/bin/haproxy_snmp.sh
+      exec:
+        - /bin/sh -c "apk update && apk add --no-cache haproxy net-snmp net-snmp-tools && which haproxy || echo 'HAProxy not installed' > /tmp/haproxy_error.log && chmod +x /usr/local/bin/haproxy_snmp.sh && snmpd -C -c /etc/snmp/snmpd.conf & sudo haproxy -f /usr/local/etc/haproxy/haproxy.cfg -D || echo 'HAProxy failed to start' >> /tmp/haproxy_error.log"
+        - /bin/sh -c "teamd -d -f /etc/teamd.conf && ip link set team0 up && vconfig add team0 110 && ifconfig team0.110 10.1.10.50 netmask 255.255.255.0 && ip link set team0.110 up && ip route add 10.1.0.0/16 via 10.1.10.1 dev team0.110 && chmod +x /usr/local/bin/haproxy_snmp.sh && snmpd -C -c /etc/snmp/snmpd.conf & && haproxy -f /usr/local/etc/haproxy/haproxy.cfg -D || echo 'HAProxy failed to start' >> /tmp/haproxy_error.log"    
+
+    dc1_haproxy2:
+      kind: linux
+      mgmt-ipv4: 172.100.100.15
+      env:
+        TMODE: lacp
+      binds:
+        - haproxy/haproxy2.cfg:/usr/local/etc/haproxy/haproxy.cfg
+        - haproxy/teamd.conf:/etc/teamd.conf
+        - haproxy/snmpd.conf:/etc/snmp/snmpd.conf
+        - haproxy/haproxy_snmp.sh:/usr/local/bin/haproxy_snmp.sh
+      exec:
+        - /bin/sh -c "apk update && apk add --no-cache haproxy net-snmp net-snmp-tools && which haproxy || echo 'HAProxy not installed' > /tmp/haproxy_error.log && chmod +x /usr/local/bin/haproxy_snmp.sh && snmpd -C -c /etc/snmp/snmpd.conf & sudo haproxy -f /usr/local/etc/haproxy/haproxy.cfg -D || echo 'HAProxy failed to start' >> /tmp/haproxy_error.log"
+        - /bin/sh -c "teamd -d -f /etc/teamd.conf && ip link set team0 up && vconfig add team0 111 && ifconfig team0.111 10.1.11.50 netmask 255.255.255.0 && ip link set team0.111 up && ip route add 10.1.0.0/16 via 10.1.11.1 dev team0.111 && chmod +x /usr/local/bin/haproxy_snmp.sh && snmpd -C -c /etc/snmp/snmpd.conf & haproxy -f /usr/local/etc/haproxy/haproxy.cfg -D || echo 'HAProxy failed to start' >> /tmp/haproxy_error.log"
+
+
+  links:
+    - endpoints: ["dc1_leaf1a:eth1", "dc1_spine1:eth1"]
+    - endpoints: ["dc1_leaf1b:eth1", "dc1_spine1:eth2"]
+    - endpoints: ["dc1_leaf2a:eth1", "dc1_spine1:eth3"]
+    - endpoints: ["dc1_leaf2b:eth1", "dc1_spine1:eth4"]
+    - endpoints: ["dc1_leaf1a:eth2", "dc1_spine2:eth1"]
+    - endpoints: ["dc1_leaf1b:eth2", "dc1_spine2:eth2"]
+    - endpoints: ["dc1_leaf2a:eth2", "dc1_spine2:eth3"]
+    - endpoints: ["dc1_leaf2b:eth2", "dc1_spine2:eth4"]
+    - endpoints: ["dc1_leaf1a:eth3", "dc1_leaf1b:eth3"]
+    - endpoints: ["dc1_leaf1a:eth4", "dc1_leaf1b:eth4"]
+    - endpoints: ["dc1_leaf2a:eth3", "dc1_leaf2b:eth3"]
+    - endpoints: ["dc1_leaf2a:eth4", "dc1_leaf2b:eth4"]
+    - endpoints: ["dc1_leaf1a:eth5", "dc1_client1:eth1"]
+    - endpoints: ["dc1_leaf1b:eth5", "dc1_client1:eth2"]
+    - endpoints: ["dc1_leaf1a:eth6", "dc1_client2:eth1"]
+    - endpoints: ["dc1_leaf1b:eth6", "dc1_client2:eth2"]
+    - endpoints: ["dc1_leaf2a:eth5", "dc1_client3:eth1"]
+    - endpoints: ["dc1_leaf2b:eth5", "dc1_client3:eth2"]
+    - endpoints: ["dc1_leaf2a:eth6", "dc1_client4:eth1"]
+    - endpoints: ["dc1_leaf2b:eth6", "dc1_client4:eth2"]
+    - endpoints: ["dc1_leaf1a:eth7", "dc1_vyos01:eth1"]
+    - endpoints: ["dc1_leaf1b:eth7", "dc1_vyos01:eth2"]
+    - endpoints: ["dc1_leaf2a:eth7", "dc1_vyos02:eth1"]
+    - endpoints: ["dc1_leaf2b:eth7", "dc1_vyos02:eth2"]
+    - endpoints: ["dc1_haproxy1:eth1", "dc1_leaf1a:eth8"]
+    - endpoints: ["dc1_haproxy1:eth2", "dc1_leaf1b:eth8"]
+    - endpoints: ["dc1_haproxy2:eth1", "dc1_leaf2a:eth8"]
+    - endpoints: ["dc1_haproxy2:eth2", "dc1_leaf2b:eth8"]
+
+mgmt:
+  network: ceos_clab                
+  ipv4-subnet: 172.100.100.0/24       
+  ipv6-subnet: 2001:172:100:100::/80

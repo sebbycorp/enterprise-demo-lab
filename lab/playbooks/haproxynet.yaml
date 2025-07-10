@@ -1,0 +1,266 @@
+---
+- name: Configure and Debug LACP/MLAG for HAPROXY Firewalls
+  hosts: localhost
+  gather_facts: false
+  vars:
+    allowed_vlans: "110,111"
+    haproxy01_portchannel: 9
+    haproxy02_portchannel: 10
+
+  tasks:
+    - name: Configure LACP for HAPROXY01 on DC1 Leaf Pair 1
+      delegate_to: "{{ item }}"
+      arista.eos.eos_config:
+        lines:
+          - "vlan {{ allowed_vlans.split(',') | join(',') }}"
+          - "interface Port-Channel{{ haproxy01_portchannel }}"
+          - "  description HAPROXY01_LACP"
+          - "  switchport mode trunk"
+          - "  switchport trunk allowed vlan {{ allowed_vlans }}"
+          - "  mlag {{ haproxy01_portchannel }}"
+          - "  no shutdown"
+          - "interface Ethernet8"
+          - "  description HAPROXY01_{{ item.upper() }}"
+          - "  channel-group {{ haproxy01_portchannel }} mode active"
+          - "  no shutdown"
+      loop:
+        - DC1_LEAF1A
+        - DC1_LEAF1B
+
+    - name: Configure LACP for HAPROXY02 on DC1 Leaf Pair 2
+      delegate_to: "{{ item }}"
+      arista.eos.eos_config:
+        lines:
+          - "vlan {{ allowed_vlans.split(',') | join(',') }}"
+          - "interface Port-Channel{{ haproxy02_portchannel }}"
+          - "  description HAPROXY02_LACP"
+          - "  switchport mode trunk"
+          - "  switchport trunk allowed vlan {{ allowed_vlans }}"
+          - "  mlag {{ haproxy02_portchannel }}"
+          - "  no shutdown"
+          - "interface Ethernet8"
+          - "  description HAPROXY02_{{ item.upper() }}"
+          - "  channel-group {{ haproxy02_portchannel }} mode active"
+          - "  no shutdown"
+      loop:
+        - DC1_LEAF2A
+        - DC1_LEAF2B
+
+    - name: Save Arista EOS configurations
+      delegate_to: "{{ item }}"
+      arista.eos.eos_config:
+        save_when: always
+      loop:
+        - DC1_LEAF1A
+        - DC1_LEAF1B
+        - DC1_LEAF2A
+        - DC1_LEAF2B
+
+    - name: Check MLAG status on Arista switches
+      delegate_to: "{{ item }}"
+      arista.eos.eos_command:
+        commands:
+          - show mlag
+          - show port-channel dense
+          - show interfaces Ethernet8 status
+      register: mlag_status
+      ignore_errors: true
+      loop:
+        - DC1_LEAF1A
+        - DC1_LEAF1B
+        - DC1_LEAF2A
+        - DC1_LEAF2B
+
+    - name: Display MLAG Status
+      debug:
+        msg: "MLAG Status for {{ item.item }}: {{ item.stdout }}"
+      loop: "{{ mlag_status.results }}"
+      when: mlag_status.results is defined
+
+    - name: Debug DC1_LEAF1B Configuration
+      block:
+        - name: Test basic connectivity to DC1_LEAF1B
+          delegate_to: DC1_LEAF1B
+          arista.eos.eos_command:
+            commands:
+              - show version | include Hostname
+              - show version | include Software
+          register: leaf1b_test
+          ignore_errors: true
+
+        - name: Display DC1_LEAF1B test results
+          debug:
+            var: leaf1b_test
+
+        - name: Check current interface configuration on DC1_LEAF1B
+          delegate_to: DC1_LEAF1B
+          arista.eos.eos_command:
+            commands:
+              - show interfaces Ethernet8 | include Description
+              - show interfaces Ethernet8 status
+          register: leaf1b_current
+          ignore_errors: true
+
+        - name: Display current config
+          debug:
+            var: leaf1b_current
+
+        - name: Force configure DC1_LEAF1B with simple test
+          delegate_to: DC1_LEAF1B
+          arista.eos.eos_config:
+            lines:
+              - "interface Ethernet8"
+              - "  description TEST_LEAF1B_CONFIG"
+              - "  no shutdown"
+            save_when: always
+          register: leaf1b_config
+          ignore_errors: true
+
+        - name: Display configuration result
+          debug:
+            var: leaf1b_config
+
+        - name: Try full LACP configuration on DC1_LEAF1B
+          delegate_to: DC1_LEAF1B
+          arista.eos.eos_config:
+            lines:
+              - "vlan 110,111"
+              - "interface Port-Channel9"
+              - "  description HAPROXY01_LACP_LEAF1B"
+              - "  switchport mode trunk"
+              - "  switchport trunk allowed vlan 110,111"
+              - "  mlag 9"
+              - "  no shutdown"
+              - "interface Ethernet8"
+              - "  description HAPROXY01_DC1_LEAF1B"
+              - "  channel-group 9 mode active"
+              - "  no shutdown"
+            save_when: always
+          register: leaf1b_full_config
+          ignore_errors: true
+
+        - name: Display full configuration result
+          debug:
+            var: leaf1b_full_config
+
+        - name: Verify final configuration
+          delegate_to: DC1_LEAF1B
+          arista.eos.eos_command:
+            commands:
+              - show interfaces Ethernet8 | include Description
+              - show interfaces Port-Channel9 | include Description
+              - show port-channel dense
+          register: leaf1b_verify
+          ignore_errors: true
+
+        - name: Display verification result
+          debug:
+            var: leaf1b_verify
+
+        - name: Compare with DC1_LEAF1A for reference
+          delegate_to: DC1_LEAF1A
+          arista.eos.eos_command:
+            commands:
+              - show interfaces Ethernet8 | include Description
+              - show interfaces Port-Channel9 | include Description
+              - show port-channel dense
+          register: leaf1a_compare
+          ignore_errors: true
+
+        - name: Display DC1_LEAF1A comparison
+          debug:
+            var: leaf1a_compare
+
+    - name: Debug DC1_LEAF2B Configuration
+      block:
+        - name: Test basic connectivity to DC1_LEAF2B
+          delegate_to: DC1_LEAF2B
+          arista.eos.eos_command:
+            commands:
+              - show version | include Hostname
+              - show version | include Software
+          register: leaf2b_test
+          ignore_errors: true
+
+        - name: Display DC1_LEAF2B test results
+          debug:
+            var: leaf2b_test
+
+        - name: Check current interface configuration on DC1_LEAF2B
+          delegate_to: DC1_LEAF2B
+          arista.eos.eos_command:
+            commands:
+              - show interfaces Ethernet8 | include Description
+              - show interfaces Ethernet8 status
+          register: leaf2b_current
+          ignore_errors: true
+
+        - name: Display current config
+          debug:
+            var: leaf2b_current
+
+        - name: Force configure DC1_LEAF2B with simple test
+          delegate_to: DC1_LEAF2B
+          arista.eos.eos_config:
+            lines:
+              - "interface Ethernet8"
+              - "  description TEST_LEAF2B_CONFIG"
+              - "  no shutdown"
+            save_when: always
+          register: leaf2b_config
+          ignore_errors: true
+
+        - name: Display configuration result
+          debug:
+            var: leaf2b_config
+
+        - name: Try full LACP configuration on DC1_LEAF2B
+          delegate_to: DC1_LEAF2B
+          arista.eos.eos_config:
+            lines:
+              - "vlan 110,111"
+              - "interface Port-Channel10"
+              - "  description HAPROXY02_LACP_LEAF2B"
+              - "  switchport mode trunk"
+              - "  switchport trunk allowed vlan 110,111"
+              - "  mlag 10"
+              - "  no shutdown"
+              - "interface Ethernet8"
+              - "  description HAPROXY02_DC1_LEAF2B"
+              - "  channel-group 10 mode active"
+              - "  no shutdown"
+            save_when: always
+          register: leaf2b_full_config
+          ignore_errors: true
+
+        - name: Display full configuration result
+          debug:
+            var: leaf2b_full_config
+
+        - name: Verify final configuration
+          delegate_to: DC1_LEAF2B
+          arista.eos.eos_command:
+            commands:
+              - show interfaces Ethernet8 | include Description
+              - show interfaces Port-Channel10 | include Description
+              - show port-channel dense
+          register: leaf2b_verify
+          ignore_errors: true
+
+        - name: Display verification result
+          debug:
+            var: leaf2b_verify
+
+        - name: Compare with DC1_LEAF2A for reference
+          delegate_to: DC1_LEAF2A
+          arista.eos.eos_command:
+            commands:
+              - show interfaces Ethernet8 | include Description
+              - show interfaces Port-Channel10 | include Description
+              - show port-channel dense
+          register: leaf2a_compare
+          ignore_errors: true
+
+        - name: Display DC1_LEAF2A comparison
+          debug:
+            var: leaf2a_compare

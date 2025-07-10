@@ -1,0 +1,36 @@
+---
+
+mgmt_gateway: 192.168.200.1
+
+node_type_keys:
+  - key: spine
+    type: spine
+    default_evpn_role: server
+    interface_descriptions:
+      # Override default interface description with a custom python module
+      python_module: custom_interface_descriptions
+      python_class_name: CustomAvdInterfaceDescriptions
+
+  - key: l3leaf
+    type: l3leaf
+    connected_endpoints: true
+    default_evpn_role: client
+    mlag_support: true
+    network_services:
+      l2: true
+      l3: true
+    vtep: true
+    ip_addressing:
+      # Override default ip addressing with a custom python module
+      python_module: custom_ip_addressing
+      python_class_name: CustomAvdIpAddressing
+
+    interface_descriptions:
+      # Override default interface description with a custom python module using the new api with InterfaceDescriptionData object.
+      python_module: custom_interface_descriptions_with_data
+      python_class_name: CustomAvdInterfaceDescriptions
+
+ip_offset_10: 10
+ip_offset_20: 20
+
+description_prefix: "TEST_CUSTOM_PREFIX"

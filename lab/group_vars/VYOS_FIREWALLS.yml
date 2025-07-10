@@ -1,0 +1,67 @@
+---
+# group_vars/VYOS_FIREWALLS.yml
+
+# Common VRRP configuration
+vrrp_virtual_ip_110: "10.1.10.254/24"
+vrrp_virtual_ip_111: "10.1.11.254/24"
+
+# WAN interface configuration
+wan_interface: "eth0"
+wan_gateway: "192.168.1.1"  # Replace with your actual WAN gateway
+
+# Firewall zones
+internal_zones:
+  - bond0.110
+  - bond0.111
+external_zone: "eth0"
+
+# NAT configuration
+nat_rules:
+  - rule: 100
+    source_address: "10.1.10.0/24"
+    outbound_interface: "{{ wan_interface }}"
+  - rule: 110
+    source_address: "10.1.11.0/24"
+    outbound_interface: "{{ wan_interface }}"
+
+# VRRP sync group configuration
+vrrp_sync_group: "SYNC_GROUP"
+vrrp_groups:
+  - name: "VLAN110"
+    vrid: 110
+    interface: "bond0.110"
+    virtual_address: "{{ vrrp_virtual_ip_110 }}"
+  - name: "VLAN111"
+    vrid: 111
+    interface: "bond0.111"
+    virtual_address: "{{ vrrp_virtual_ip_111 }}"
+
+# Firewall rules
+firewall_rules:
+  internal_to_external:
+    default_action: "accept"
+  external_to_internal:
+    default_action: "drop"
+    rules:
+      - rule: 10
+        action: "accept"
+        state:
+          - "established"
+          - "related"
+  internal_to_internal:
+    default_action: "accept"
+
+# SNMP configuration (from existing config)
+snmp_community: "public"
+snmp_trap_target: "172.16.10.118"
+snmp_trap_port: 162
+
+# Syslog configuration (from existing config)
+syslog_remote_host: "172.16.10.118"
+syslog_remote_port: 514
+
+# NTP servers (from existing config)
+ntp_servers:
+  - "time1.vyos.net"
+  - "time2.vyos.net"
+  - "time3.vyos.net"

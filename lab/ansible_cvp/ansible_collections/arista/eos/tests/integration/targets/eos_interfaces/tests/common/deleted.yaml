@@ -1,0 +1,30 @@
+---
+- ansible.builtin.include_tasks: _reset_config.yaml
+
+- ansible.builtin.set_fact:
+    config:
+      - name: Ethernet1
+
+- become: true
+  arista.eos.eos_facts:
+    gather_network_resources: interfaces
+
+- name: Returns interfaces to default parameters
+  register: result
+  become: true
+  arista.eos.eos_interfaces:
+    config: "{{ config }}"
+    state: deleted
+
+- ansible.builtin.assert:
+    that:
+      - ansible_facts.network_resources.interfaces|symmetric_difference(result.before)|length
+        == 0
+
+- become: true
+  arista.eos.eos_facts:
+    gather_network_resources: interfaces
+
+- ansible.builtin.assert:
+    that:
+      - ansible_facts.network_resources.interfaces|symmetric_difference(result.after) == []

@@ -1,0 +1,12 @@
+{#
+ Copyright (c) 2023-2024 Arista Networks, Inc.
+ Use of this source code is governed by the Apache License 2.0
+ that can be found in the LICENSE file.
+#}
+{# eos - vlan internal order #}
+{% if  vlan_internal_order.allocation is arista.avd.defined
+   and vlan_internal_order.range.beginning is arista.avd.defined
+   and vlan_internal_order.range.ending is arista.avd.defined %}
+!
+vlan internal order {{ vlan_internal_order.allocation }} range {{ vlan_internal_order.range.beginning }} {{ vlan_internal_order.range.ending }}
+{% endif %}

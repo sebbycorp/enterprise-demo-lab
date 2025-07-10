@@ -1,0 +1,42 @@
+# Copyright (c) 2023-2024 Arista Networks, Inc.
+# Use of this source code is governed by the Apache License 2.0
+# that can be found in the LICENSE file.
+---
+- name: Gather os specific variables for Centos / Red Hat OS
+  ansible.builtin.include_vars: "centos-{{ ansible_distribution_major_version }}.yml"
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Gather os specific variables for Debian / Ubuntu OS
+  ansible.builtin.include_vars: "debian.yml"
+  when: ansible_distribution == "Debian" or ansible_distribution == 'Ubuntu'
+
+- name: Update packages list
+  ansible.builtin.apt:
+    update_cache: true
+  when: ansible_distribution == "Debian" or ansible_distribution == 'Ubuntu'
+
+- name: Install packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ dhcp_packages }}"
+    state: "{{ dhcp_packages_state }}"
+
+- name: Run task for debian host
+  ansible.builtin.include_tasks: fix-debian.yml
+  when: ansible_distribution == "Debian" or ansible_distribution == 'Ubuntu'
+
+- name: 'Generate DHCPd configuration file'
+  become: true
+  ansible.builtin.template:
+    src: 'dhcpd.conf.j2'
+    dest: '{{ dhcp_config }}'
+    mode: 0644
+    backup: true
+  notify: "Restart dhcpd"
+
+- name: Check & activate DHCP service
+  become: true
+  ansible.builtin.service:
+    name: '{{ dhcp_service }}'
+    enabled: true
+    state: started

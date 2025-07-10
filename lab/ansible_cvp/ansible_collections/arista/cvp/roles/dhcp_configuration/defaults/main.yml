@@ -1,0 +1,32 @@
+---
+# defaults file for dhcp_configuration
+# Configure default connection parameter.
+ansible_connection: paramiko
+
+# Method to become root
+ansible_become_method: sudo
+
+# Default execution mode
+mode: online
+
+# Default folder if mode=offline
+output_dir: '{{ inventory_dir }}'
+
+# List of packages to install to enable DHCP package
+dhcp_packages:
+  - dhcp
+
+# State of the package
+dhcp_packages_state: "present"
+
+# DHCP configuration folder
+dhcp_config_dir: /etc/dhcp
+
+# Configuration File for DHCP service
+dhcp_config: '{{ dhcp_config_dir }}/dhcpd.conf'
+
+# DHCP service name
+dhcp_service: dhcpd
+
+# Apparmor Fix for DHCP
+dhcp_apparmor_fix: true

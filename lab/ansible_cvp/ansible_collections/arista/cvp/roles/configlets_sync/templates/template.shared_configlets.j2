@@ -1,0 +1,15 @@
+{#
+ Copyright (c) 2023-2024 Arista Networks, Inc.
+ Use of this source code is governed by the Apache License 2.0
+ that can be found in the LICENSE file.
+#}
+---
+{% for configlet in ansible_facts['configlets'] %}
+{%      if configlet_filter in configlet['name'] %}
+   '{{configlet["name"]}}':
+      config: "{{ configlet['config'] | replace('\n', '\\n')}}"
+      last_changed: {{configlet['dateTimeInLongFormat']}}
+      devices: {{configlet['devices'] | replace("u'", "'")}}
+      containers: {{configlet['containers'] | replace("u'", "'")}}
+{%      endif %}
+{% endfor %}

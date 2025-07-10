@@ -1,0 +1,26 @@
+---
+### 802.1x Global ###
+dot1x:
+  system_auth_control: true
+  protocol_lldp_bypass: true
+  dynamic_authorization: true
+  mac_based_authentication:
+    delay: 300
+    hold_period: 300
+  radius_av_pair:
+    service_type: true
+    framed_mtu: 1500
+  aaa:
+    unresponsive:
+      eap_response: success
+      action:
+        traffic_allow_vlan: 10
+      phone_action:
+        apply_cached_results: true
+        cached_results_timeout:
+          time_duration: 10
+          time_duration_unit: hours
+        traffic_allow: true
+        apply_alternate: true
+      recovery_action_reauthenticate: true
+    accounting_update_interval: 6

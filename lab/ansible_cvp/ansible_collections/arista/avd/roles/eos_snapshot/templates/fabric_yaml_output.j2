@@ -1,0 +1,13 @@
+{#
+ Copyright (c) 2023-2024 Arista Networks, Inc.
+ Use of this source code is governed by the Apache License 2.0
+ that can be found in the LICENSE file.
+#}
+devices:
+{% for node in ansible_play_hosts | arista.avd.natural_sort %}
+  {{ node }}:
+{%     for command in commands_list %}
+    "{{ command }}":
+      {{ hostvars[node].cli_output_json.results[loop.index0].stdout[0] | to_nice_yaml(indent=2) | trim | indent(6) }}
+{%     endfor %}
+{% endfor %}

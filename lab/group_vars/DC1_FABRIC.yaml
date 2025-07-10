@@ -1,0 +1,93 @@
+---
+fabric_name: DC1_FABRIC
+
+underlay_routing_protocol: ebgp
+
+overlay_routing_protocol: ebgp
+
+evpn_vlan_aware_bundles: false
+
+# bgp peer groups passwords
+bgp_peer_groups:
+  ipv4_underlay_peers:
+    password: "AQQvKeimxJu+uGQ/yYvv9w=="
+  evpn_overlay_peers:
+      password: "q+VNViP5i4rVjW1cxFv2wA=="
+  mlag_ipv4_underlay_peer:
+      password: "vnEaG8gMeQf3d3cN6PktXQ=="
+
+# BGP defaults
+bgp_default_ipv4_unicast: false
+bgp_update_wait_install: false
+bgp_update_wait_for_convergence: false
+bgp_distance:
+  external_routes: 20
+  internal_routes: 200
+  local_routes: 200
+
+spine:
+  defaults:
+    platform: cEOS-LAB
+    bgp_as: '65001'
+    loopback_ipv4_pool: 192.168.255.0/24
+  nodes:
+    - name: DC1_SPINE1
+      id: 1
+      mgmt_ip: 172.100.100.2/24
+    - name: DC1_SPINE2
+      id: 2
+      mgmt_ip: 172.100.100.3/24
+
+l3leaf:
+  defaults:
+    platform: cEOS-LAB
+    uplink_switches:
+      - DC1_SPINE1
+      - DC1_SPINE2
+    uplink_interfaces:
+      - Ethernet1
+      - Ethernet2
+    mlag_interfaces:
+      - Ethernet3
+      - Ethernet4
+    spanning_tree_mode: mstp
+    spanning_tree_priority: 4096
+    evpn_services_l2_only: true
+    loopback_ipv4_pool: 192.168.255.0/24
+    uplink_ipv4_pool: 172.31.255.0/24
+    loopback_ipv4_offset: 2
+    vtep_loopback_ipv4_pool: 192.168.254.0/24
+    mlag_peer_ipv4_pool: 10.255.252.0/24
+    mlag_peer_l3_ipv4_pool: 10.255.251.0/24
+  node_groups:
+    - group: DC1_LEAF1
+      bgp_as: '65101'
+      nodes:
+        - name: DC1_LEAF1A
+          id: 1
+          mgmt_ip: 172.100.100.4/24
+          uplink_switch_interfaces:
+            - Ethernet1
+            - Ethernet1
+        - name: DC1_LEAF1B
+          id: 2
+          mgmt_ip: 172.100.100.5/24
+          uplink_switch_interfaces:
+            - Ethernet2
+            - Ethernet2
+    - group: DC1_LEAF2
+      bgp_as: '65102'
+      nodes:
+        - name: DC1_LEAF2A
+          id: 3
+          mgmt_ip: 172.100.100.6/24
+          uplink_switch_interfaces:
+            - Ethernet3
+            - Ethernet3
+        - name: DC1_LEAF2B
+          id: 4
+          mgmt_ip: 172.100.100.7/24
+          uplink_switch_interfaces:
+            - Ethernet4
+            - Ethernet4
+

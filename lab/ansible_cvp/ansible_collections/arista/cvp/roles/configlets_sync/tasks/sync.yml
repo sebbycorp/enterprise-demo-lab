@@ -1,0 +1,12 @@
+# Copyright (c) 2023-2024 Arista Networks, Inc.
+# Use of this source code is governed by the Apache License 2.0
+# that can be found in the LICENSE file.
+# Run everything if user set action=sync
+- name: 'Run init phase'
+  ansible.builtin.include_tasks: "init.yml"
+
+- name: 'Run pull phase'
+  ansible.builtin.include_tasks: "pull.yml"
+
+- name: 'Run push phase'
+  ansible.builtin.include_tasks: "push.yml"

@@ -1,0 +1,10 @@
+---
+- name: Invoke cli tasks
+  ansible.builtin.include_tasks: cli.yaml
+  tags:
+    - network_cli
+
+- name: Invoke eapi tasks
+  ansible.builtin.include_tasks: eapi.yaml
+  tags:
+    - httpapi

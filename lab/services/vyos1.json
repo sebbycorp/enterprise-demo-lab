@@ -1,0 +1,127 @@
+set system syslog remote 172.16.10.118 facility all level info
+set system syslog remote 172.16.10.118 port 514
+set system syslog remote 172.16.10.118 facility kern level warning
+set system syslog remote 172.16.10.118 facility auth level info
+set system syslog remote 172.16.10.118 facility daemon level info
+set system syslog remote 172.16.10.118 facility local7 level debug
+set service snmp community public authorization ro
+set service snmp community public network 0.0.0.0/0
+set service snmp trap-target 172.16.10.118 community public
+set service snmp trap-target 172.16.10.118 port 162
+
+set service lldp interface all
+set service lldp snmp
+set service lldp management-address 172.100.100.12
+
+set interfaces bonding bond0 description "LACP to DC1_LEAF1 pair"
+set interfaces bonding bond0 mode "802.3ad"
+set interfaces bonding bond0 hash-policy "layer3+4"
+set interfaces bonding bond0 lacp-rate "fast"
+
+set interfaces bonding bond0 member interface eth1
+set interfaces bonding bond0 member interface eth2
+
+set interfaces bonding bond0 vif 110 description "VLAN 110"
+set interfaces bonding bond0 vif 111 description "VLAN 111"
+
+set interfaces ethernet eth1 description "Link to DC1_LEAF1A"
+set interfaces ethernet eth2 description "Link to DC1_LEAF1B"
+
+set interfaces bonding bond0 vif 110 address 10.1.10.11/24
+set interfaces bonding bond0 vif 111 address 10.1.11.11/24
+set high-availability vrrp group VLAN110 interface bond0.110
+set high-availability vrrp group VLAN110 vrid 10
+set high-availability vrrp group VLAN110 address 10.1.10.10/24
+set high-availability vrrp group VLAN110 priority 200
+set high-availability vrrp group VLAN110 advertise-interval 1
+set high-availability vrrp group VLAN110 authentication type plaintext-password
+set high-availability vrrp group VLAN110 authentication password Welcome
+set high-availability vrrp group VLAN111 interface bond0.111
+set high-availability vrrp group VLAN111 vrid 11
+set high-availability vrrp group VLAN111 address 10.1.11.10/24
+set high-availability vrrp group VLAN111 priority 200
+set high-availability vrrp group VLAN111 advertise-interval 1
+set high-availability vrrp group VLAN111 authentication type plaintext-password
+set high-availability vrrp group VLAN111 authentication password Welcome
+set service https
+set service https listen-address 172.100.100.12
+
+
+# Define and bind zones to interfaces with descriptions
+set firewall zone DMZ default-action drop
+set firewall zone DMZ description "DMZ zone for VLAN 110 WEB servers"
+set firewall zone DMZ member interface bond0.110 
+
+set firewall zone INT default-action drop
+set firewall zone INT description "Internal zone for VLAN 111 API and DB servers"
+set firewall zone INT member interface bond0.111
+
+
+
+# Address groups
+set firewall group address-group WEB-SERVERS address 10.1.10.101
+set firewall group address-group WEB-SERVERS address 10.1.10.103
+set firewall group address-group API-SERVERS address 10.1.11.102
+set firewall group address-group API-SERVERS address 10.1.11.104
+set firewall group address-group DB-SERVERS address 10.1.11.104
+set firewall group address-group WEB-VIP address 10.1.10.50
+set firewall group address-group API-VIP address 10.1.11.50
+set firewall group address-group CLIENT1 address 10.1.10.101
+set firewall group address-group DNS address 10.1.10.101
+
+# Port groups
+set firewall group port-group WEB-SERVERS-PORTS port 8080
+set firewall group port-group API-SERVERS-PORTS port 9090
+set firewall group port-group DB-SERVERS-PORTS port 5142
+set firewall group port-group WEB-VIP-PORTS port 80
+set firewall group port-group WEB-VIP-PORTS port 443
+set firewall group port-group API-VIP-PORTS port 80
+set firewall group port-group API-VIP-PORTS port 443
+set firewall group port-group CLIENT1-PORTS port 5000
+set firewall group port-group DNS-PORTS port 53
+set firewall group port-group DNS-PORTS port 5380
+
+
+# Define rule-set for DMZ to INT (API servers to DB servers and WEB servers to API servers)
+set firewall ipv4 name DMZ-INT rule 10 action accept
+set firewall ipv4 name DMZ-INT rule 10 source group address-group WEB-SERVERS
+set firewall ipv4 name DMZ-INT rule 10 destination group address-group API-VIP
+set firewall ipv4 name DMZ-INT rule 10 destination group port-group API-VIP-PORTS
+set firewall ipv4 name DMZ-INT rule 10 protocol tcp
+set firewall ipv4 name DMZ-INT rule 10 log 
+set firewall ipv4 name DMZ-INT rule 20 action accept
+set firewall ipv4 name DMZ-INT rule 20 source group address-group WEB-SERVERS
+set firewall ipv4 name DMZ-INT rule 20 destination group address-group API-SERVERS
+set firewall ipv4 name DMZ-INT rule 20 destination group port-group API-SERVERS-PORTS
+set firewall ipv4 name DMZ-INT rule 20 protocol tcp
+set firewall ipv4 name DMZ-INT rule 20 log 
+set firewall ipv4 name DMZ-INT rule 30 action accept
+set firewall ipv4 name DMZ-INT rule 30 state established 
+set firewall ipv4 name DMZ-INT rule 30 state related 
+set firewall ipv4 name DMZ-INT rule 30 log 
+set firewall ipv4 name DMZ-INT rule 40 action drop
+set firewall ipv4 name DMZ-INT rule 40 state invalid 
+set firewall ipv4 name DMZ-INT rule 40 log 
+
+# Define rule-set for INT to DMZ (Client1 to WEB VIP)
+set firewall ipv4 name INT-DMZ rule 10 action accept
+set firewall ipv4 name INT-DMZ rule 10 source address 10.1.11.0/24 
+set firewall ipv4 name INT-DMZ rule 10 destination address 10.1.10.101 
+set firewall ipv4 name INT-DMZ rule 10 destination port 53
+set firewall ipv4 name INT-DMZ rule 10 protocol udp
+set firewall ipv4 name INT-DMZ rule 10 log 
+set firewall ipv4 name INT-DMZ rule 20 action accept
+set firewall ipv4 name INT-DMZ rule 20 state established 
+set firewall ipv4 name INT-DMZ rule 20 state related 
+set firewall ipv4 name INT-DMZ rule 20 log 
+set firewall ipv4 name INT-DMZ rule 30 action drop
+set firewall ipv4 name INT-DMZ rule 30 state invalid 
+set firewall ipv4 name INT-DMZ rule 30 log 
+
+# Apply rule-sets to zones
+set firewall zone INT from DMZ firewall name DMZ-INT
+set firewall zone DMZ from INT firewall name INT-DMZ
+
+# Routing 
+set protocols static route 10.1.10.0/24 next-hop 10.1.10.1
+set protocols static route 10.1.11.0/24 next-hop 10.1.11.1

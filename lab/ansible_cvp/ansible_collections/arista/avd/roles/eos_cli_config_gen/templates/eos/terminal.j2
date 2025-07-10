@@ -1,0 +1,15 @@
+{#
+ Copyright (c) 2023-2024 Arista Networks, Inc.
+ Use of this source code is governed by the Apache License 2.0
+ that can be found in the LICENSE file.
+#}
+{# eos - terminal #}
+{% if terminal is arista.avd.defined %}
+!
+{%     if terminal.width is arista.avd.defined %}
+terminal width {{ terminal.width }}
+{%     endif %}
+{%     if terminal.length is arista.avd.defined %}
+terminal length {{ terminal.length }}
+{%     endif %}
+{% endif %}

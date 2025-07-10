@@ -1,0 +1,29 @@
+---
+- ansible.builtin.debug: msg="START cli/invalid.yaml on connection={{ ansible_connection }}"
+
+- name: run invalid command
+  register: result
+  ignore_errors: true
+  arista.eos.eos_command:
+    commands:
+      - show foo
+
+- ansible.builtin.assert:
+    that:
+      - result.failed == true
+      - result.msg is defined
+
+- name: run commands that include invalid command
+  register: result
+  ignore_errors: true
+  arista.eos.eos_command:
+    commands:
+      - show version
+      - show foo
+
+- ansible.builtin.assert:
+    that:
+      - result.failed == true
+      - result.msg is defined
+
+- ansible.builtin.debug: msg="END cli/invalid.yaml on connection={{ ansible_connection }}"

@@ -1,0 +1,68 @@
+
+{#
+ Copyright (c) 2023-2024 Arista Networks, Inc.
+ Use of this source code is governed by the Apache License 2.0
+ that can be found in the LICENSE file.
+#}
+# {{ ansible_managed }} - {{ inventory_hostname }}
+{% if ztp.general.dhcpd_raw is defined %}
+
+# dhcpd raw configuration
+{{ ztp.general.dhcpd_raw }}
+{% endif %}
+# Subnet of ZTP interface
+{% for subnet in ztp.general.subnets %}
+{% if subnet.name is defined %}
+
+# {{ subnet.name }}
+{% endif %}
+subnet {{ subnet.network }} netmask {{ subnet.netmask }} {
+{%     if subnet.start is defined and subnet.end is defined %}
+    range {{ subnet.start }} {{ subnet.end }};
+{%     endif %}
+{%     if subnet.gateway is defined %}
+    option routers {{ subnet.gateway }};
+{%     endif %}
+{%     if subnet.nameservers is defined and subnet.nameservers is iterable %}
+    option domain-name-servers {% for nameserver in subnet.nameservers %}{{ nameserver }}{% if not loop.last %}, {% endif %}{% endfor %};
+{%     endif %}
+{%     if subnet.domain_name is defined %}
+    option domain-name {{subnet.domain_name }};
+{%     endif %}
+{%     if subnet.registration is defined %}
+    option bootfile-name "{{ subnet.registration }}";
+{%     endif %}
+{%     if subnet.lease_time is defined %}
+    max-lease-time {{ subnet.lease_time }};
+{%     endif %}
+{%     if subnet.dhcpd_raw is defined %}
+{% filter indent(width=4,) %}    {{ subnet.dhcpd_raw }}{% endfilter %}
+{%     endif %}
+}
+{% endfor %}
+
+# Per host definition
+{% for client in ztp.clients %}
+host {{ client.name }} {
+    option host-name "{{ client.name }}";
+{%     if ztp.default.use_system_mac is defined and ztp.default.use_system_mac == false %}
+    hardware ethernet {{ client.mac | string }};
+{%     elif ztp.default.use_system_mac is defined and ztp.default.use_system_mac == true %}
+    option dhcp-client-identifier {{ client.mac | string }};
+{%     else %}
+    hardware ethernet {{ client.mac | string }};
+{%     endif %}
+    fixed-address {{client.ip4}};
+    option bootfile-name "{{ ztp.default.registration }}";
+{%     if client.gateway is defined %}
+    option routers {{ client.gateway }};
+{%     elif ztp.default.gateway is defined %}
+    option routers {{ ztp.default.gateway }};
+{%     endif %}
+{%     if client.nameservers is defined and subnet.nameservers is iterable %}
+    option domain-name-servers {% for nameserver in client.nameservers %}{{ nameserver }}{% if not loop.last %}, {% endif %}{% endfor %};
+{%     elif ztp.default.nameservers is defined and ztp.default.nameservers is iterable %}
+    option domain-name-servers {% for nameserver in ztp.default.nameservers %}{{ nameserver }}{% if not loop.last %}, {% endif %}{% endfor %};
+{%     endif %}
+}
+{% endfor %}

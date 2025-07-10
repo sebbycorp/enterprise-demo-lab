@@ -1,0 +1,8 @@
+release_summary: |
+  Release 3.11.0 - See documentation on cvp.avd.sh for details.
+
+bugfixes:
+  - Cv_validate_v3 broken with cvprac 1.4.0 due to argument keyword change
+  - Update Readme with correct ansible-core version
+  - Allow cv_device_v3 to handle SN-based decomms
+  - Device decommissioning fails if a device is not streaming and not provisioned

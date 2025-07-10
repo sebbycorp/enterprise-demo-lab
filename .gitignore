@@ -1,0 +1,10 @@
+lab/documentation
+lab/documentation/*
+lab/intended
+lab/intended/*
+lab/reports
+lab/reports/*
+lab/snapshots
+lab/snapshots/*
+
+.topology.yaml.bak

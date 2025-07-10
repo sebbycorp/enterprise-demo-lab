@@ -1,0 +1,15 @@
+{#
+ Copyright (c) 2023-2024 Arista Networks, Inc.
+ Use of this source code is governed by the Apache License 2.0
+ that can be found in the LICENSE file.
+#}
+{# eos - vrfs #}
+{% for vrf in vrfs | arista.avd.natural_sort('name') %}
+{%     if vrf.name != 'default' %}
+!
+vrf instance {{ vrf.name }}
+{%         if vrf.description is arista.avd.defined %}
+   description {{ vrf.description }}
+{%         endif %}
+{%     endif %}
+{% endfor %}

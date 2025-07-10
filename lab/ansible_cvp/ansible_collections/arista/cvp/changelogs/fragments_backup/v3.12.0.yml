@@ -1,0 +1,5 @@
+release_summary: |
+  Release 3.12.0 - See documentation on cvp.avd.sh for details.
+
+minor_changes:
+- Add support for Ansible 2.18.x

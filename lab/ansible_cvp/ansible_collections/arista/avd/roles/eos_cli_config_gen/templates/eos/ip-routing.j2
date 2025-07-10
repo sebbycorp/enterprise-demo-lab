@@ -1,0 +1,17 @@
+{#
+ Copyright (c) 2023-2024 Arista Networks, Inc.
+ Use of this source code is governed by the Apache License 2.0
+ that can be found in the LICENSE file.
+#}
+{# eos - ip routing #}
+{# TODO - this currently does not handle when vrf default enables ip routing #}
+{% if ip_routing_ipv6_interfaces is arista.avd.defined(true) %}
+!
+ip routing ipv6 interfaces
+{% elif ip_routing is arista.avd.defined(true) %}
+!
+ip routing
+{% elif ip_routing is arista.avd.defined(false) %}
+!
+no ip routing
+{% endif %}

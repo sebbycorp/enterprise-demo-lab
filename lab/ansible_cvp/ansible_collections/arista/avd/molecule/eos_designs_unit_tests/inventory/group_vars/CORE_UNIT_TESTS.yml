@@ -1,0 +1,205 @@
+# Fabric node type keys
+node_type_keys:
+  - key: core_router
+    type: core_router
+    default_evpn_role: none
+    mpls_lsr: true
+
+mgmt_gateway: 192.168.0.1
+
+overlay_routing_protocol: ibgp
+bgp_as: 65000
+
+# Update p2p mtu
+p2p_uplinks_mtu: 1600
+
+underlay_ipv6: true
+
+# ISIS params
+isis_ti_lfa:
+  enabled: true
+  protection: link
+  local_convergence_delay: 15000
+
+isis_default_is_type: level-2
+isis_default_circuit_type: level-2
+isis_default_metric: 50
+isis_advertise_passive_only: true
+
+# OSPF Params
+underlay_ospf_area: 0.0.0.0
+underlay_ospf_process_id: 101
+underlay_ospf_max_lsa: 12000
+underlay_ospf_bfd_enable: true
+
+# Nodes
+type: core_router
+core_router:
+  defaults:
+    loopback_ipv4_pool: 10.0.0.0/24
+    loopback_ipv6_pool: "2000:1234:ffff:ffff::/64"
+    node_sid_base: 200
+    isis_system_id_prefix: "0000.0001"
+  nodes:
+    - name: core-1-isis-sr-ldp
+      id: 1
+    - name: core-2-ospf-ldp
+      id: 2
+    - name: core-3-isis-sr-ldp
+      id: 3
+    - name: core-4-multicast
+      id: 4
+
+core_interfaces:
+  p2p_links_ip_pools:
+    - name: underlay_pool
+      ipv4_pool: 100.64.48.0/24
+    - name: some_other_pool
+      ipv4_pool: 100.123.123.0/24
+  p2p_links_profiles:
+    - name: isis_bb_profile
+      speed: "forced 1000full"
+      mtu: 1500
+      isis_hello_padding: false
+      isis_metric: 60
+      ip_pool: underlay_pool
+      isis_circuit_type: level-2
+      ipv6_enable: true
+      isis_authentication_mode: md5
+      isis_authentication_key: $1c$sTNAlR6rKSw=
+
+    - name: ospf_bb_profile
+      speed: "forced 1000full"
+      mtu: 1500
+      ip_pool: underlay_pool
+
+  p2p_links:
+
+    # Unnumbered link
+    - nodes: [ core-1-isis-sr-ldp, core-2-ospf-ldp ]
+      id: 1
+      interfaces: [ Ethernet1, Ethernet1 ]
+      profile: isis_bb_profile
+      ip: ["unnumbered loopback0", "unnumbered loopback0"]
+
+    # Link w/o bb profile
+    - nodes: [ core-1-isis-sr-ldp, core-2-ospf-ldp ]
+      id: 2
+      interfaces: [ Ethernet2, Ethernet2 ]
+      ip_pool: some_other_pool
+      speed: 100full
+      mtu: 1601
+      isis_hello_padding: true
+      isis_circuit_type: level-1
+      isis_metric: 60
+      qos_profile: test_qos_profile
+
+    # Normal link with profile
+    - nodes: [ core-1-isis-sr-ldp, core-2-ospf-ldp ]
+      id: 3
+      interfaces: [ Ethernet3, Ethernet3 ]
+      profile: isis_bb_profile
+
+    # Profile link with no mpls_ip
+    - nodes: [ core-1-isis-sr-ldp, core-2-ospf-ldp ]
+      id: 4
+      interfaces: [ Ethernet4, Ethernet4 ]
+      profile: isis_bb_profile
+      mpls_ip: false
+
+    # Profile link with no mpls_ldp
+    - nodes: [ core-1-isis-sr-ldp, core-2-ospf-ldp ]
+      id: 5
+      interfaces: [ Ethernet5, Ethernet5 ]
+      profile: isis_bb_profile
+      mpls_ldp: false
+
+    # Profile link with overrides
+    - nodes: [ core-1-isis-sr-ldp, core-2-ospf-ldp ]
+      id: 6
+      interfaces: [ Ethernet6, Ethernet6 ]
+      profile: isis_bb_profile
+      ip: ["unnumbered loopback0", "unnumbered loopback0"]
+      speed: 100full
+      mtu: 1602
+      isis_hello_padding: true
+      isis_circuit_type: level-1-2
+      isis_metric: 70
+      qos_profile: test_qos_profile
+      descriptions: ["Custom description on core-1-isis-sr-ldp eth6", "Custom description on core-2-ospf-ldp eth6"]
+
+    # Different link profile
+    - nodes: [ core-1-isis-sr-ldp, core-2-ospf-ldp ]
+      id: 7
+      interfaces: [ Ethernet10, Ethernet10 ]
+      profile: ospf_bb_profile
+
+    # core Port-Channel
+    - nodes: [ core-1-isis-sr-ldp, core-2-ospf-ldp ]
+      id: 9
+      port_channel:
+        mode: active
+        nodes_child_interfaces:
+          - node: core-1-isis-sr-ldp
+            interfaces: [ Ethernet12, Ethernet13 ]
+          - node: core-2-ospf-ldp
+            interfaces: [ Ethernet12, Ethernet13 ]
+      profile: isis_bb_profile
+
+    # P2P core links with underlay_multicast(pim-sparse) enabled.
+    - nodes: [ core-4-multicast, peer1 ]
+      id: 10
+      interfaces: [ Ethernet1, Ethernet1 ]
+      include_in_underlay_protocol: true
+      underlay_multicast: true
+      ip_pool: underlay_pool
+
+     # P2P core links with underlay_multicast(pim-sparse) disabled.
+    - nodes: [ core-4-multicast, peer2 ]
+      id: 11
+      interfaces: [ Ethernet2, Ethernet2 ]
+      include_in_underlay_protocol: true
+      underlay_multicast: false
+      ip_pool: underlay_pool
+
+    # P2P core links with underlay_multicast(pim-sparse) default.
+    - nodes: [ core-4-multicast, peer3 ]
+      id: 12
+      interfaces: [ Ethernet3, Ethernet3 ]
+      include_in_underlay_protocol: true
+      ip_pool: underlay_pool
+
+l3_edge:
+  p2p_links_ip_pools:
+    - name: pool_default_mask
+      ipv4_pool: 172.16.0.0/24
+    - name: pool_29_mask
+      ipv4_pool: 172.16.1.0/24
+      prefix_size: 29
+  p2p_links:
+      # P2P link with mpls_ip and mpls_ldp set to false.
+    - nodes: [core-1-isis-sr-ldp, peer2]
+      interfaces: [ethernet21, ethernet21]
+      ip: [192.168.0.2/31, 192.168.0.3/31]
+      mpls_ip: false
+      mpls_ldp: false
+    - nodes: [core-1-isis-sr-ldp, peer3]
+      interfaces: [ethernet22, ethernet22]
+      include_in_underlay_protocol: false
+      ip_pool: pool_default_mask
+      id: 1
+    - nodes: [core-1-isis-sr-ldp, peer4]
+      interfaces: [ethernet23, ethernet23]
+      include_in_underlay_protocol: false
+      ip_pool: pool_default_mask
+      id: 2
+    - nodes: [core-1-isis-sr-ldp, peer5]
+      interfaces: [ethernet24, ethernet22]
+      include_in_underlay_protocol: false
+      ip_pool: pool_29_mask
+      id: 1
+    - nodes: [core-1-isis-sr-ldp, peer6]
+      interfaces: [ethernet25, ethernet23]
+      include_in_underlay_protocol: false
+      ip_pool: pool_29_mask
+      id: 2
