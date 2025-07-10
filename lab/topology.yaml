@@ -3,7 +3,7 @@ name: s2
 topology:
   kinds:
     ceos:
-      startup-config: /home/batman/Documents/arista-lab/ceos_lab_template/ceos.cfg.tpl
+      startup-config: ./templates/ceos.cfg.tpl
       image: sebbycorp/ceosimage:4.33.4M
       exec:
         - sleep 25

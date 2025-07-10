@@ -1,0 +1,29 @@
+hostname dc1_spine1
+username admin privilege 15 secret admin
+!
+service routing protocols model multi-agent
+!
+vrf instance MGMT
+!
+interface Management0
+   description oob_management
+   vrf MGMT
+   ip address 172.100.100.2/0
+
+!
+ip route vrf MGMT 0.0.0.0/0 172.100.100.1
+ipv6 route vrf MGMT ::0/0 2001:172:100:100::1
+!
+management security
+   ssl profile eAPI
+      cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
+      certificate eAPI.crt key eAPI.key
+!
+management api http-commands
+   protocol https ssl profile eAPI
+   no shutdown
+   !
+   vrf MGMT
+      no shutdown
+!
+end
