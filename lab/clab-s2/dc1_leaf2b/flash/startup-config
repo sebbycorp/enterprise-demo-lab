@@ -1,23 +1,9 @@
-hostname dc1_leaf2b
-username admin privilege 15 secret admin
+! Startup-config last modified at Thu Jul 10 22:11:30 2025 by root
+! device: dc1leaf2b (cEOSLab, EOS-4.33.4M-42444412.4334M (engineering build))
 !
-service routing protocols model multi-agent
+no aaa root
 !
-vrf instance MGMT
-!
-interface Management0
-   description oob_management
-   vrf MGMT
-   ip address 172.100.100.7/0
-
-!
-ip route vrf MGMT 0.0.0.0/0 172.100.100.1
-ipv6 route vrf MGMT ::0/0 2001:172:100:100::1
-!
-management security
-   ssl profile eAPI
-      cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
-      certificate eAPI.crt key eAPI.key
+username admin privilege 15 role network-admin secret sha512 $6$J2N4yvjBBnXou9zH$ZlQ461d3onZeYp72GkwYAdi6fhQ91Mwcv.EMQOSab6.tZ84KViv7dY5pDEgM2.ErcvJz08m4sWGafk1jhgvDU0
 !
 management api http-commands
    protocol https ssl profile eAPI
@@ -25,5 +11,55 @@ management api http-commands
    !
    vrf MGMT
       no shutdown
+!
+no service interface inactive port-id allocation disabled
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname dc1_leaf2b
+!
+spanning-tree mode mstp
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+vrf instance MGMT
+!
+management security
+   ssl profile eAPI
+      cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
+      certificate eAPI.crt key eAPI.key
+!
+interface Ethernet1
+!
+interface Ethernet2
+!
+interface Ethernet3
+!
+interface Ethernet4
+!
+interface Ethernet5
+!
+interface Ethernet6
+!
+interface Ethernet7
+!
+interface Ethernet8
+!
+interface Management0
+   description oob_management
+   vrf MGMT
+   ip address 172.100.100.7/24
+   ipv6 address 2001:172:100:100::d/80
+!
+no ip routing
+no ip routing vrf MGMT
+!
+ip route vrf MGMT 0.0.0.0/0 172.100.100.1
+!
+ipv6 route vrf MGMT ::/0 2001:172:100:100::1
 !
 end

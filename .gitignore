@@ -8,3 +8,6 @@ lab/snapshots
 lab/snapshots/*
 
 .topology.yaml.bak
+
+lab/clab-s2*
+lab/clab-s2/*
