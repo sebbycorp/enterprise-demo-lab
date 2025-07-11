@@ -1,0 +1,64 @@
+! Command: show running-config
+! device: dc1-spine1 (cEOSLab, EOS-4.33.4M-42444412.4334M (engineering build))
+!
+no aaa root
+!
+username admin privilege 15 role network-admin secret sha512 $6$SK4ogU/8VkjdRYCO$96Of/3HshUrHRfCaRXHyFryunYlzNmwqSUXGMfVjztW.l.eRBTU/PSz4rDMbUdEuf9GYQV5Puo/5LnrmNKw1r/
+!
+management api http-commands
+   protocol https ssl profile eAPI
+   no shutdown
+   !
+   vrf MGMT
+      no shutdown
+!
+no service interface inactive port-id allocation disabled
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname dc1_spine1
+!
+spanning-tree mode mstp
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+vrf instance MGMT
+!
+management security
+   ssl profile eAPI
+      cipher-list HIGH:!eNULL:!aNULL:!MD5:!ADH:!ANULL
+      certificate eAPI.crt key eAPI.key
+!
+interface Ethernet1
+!
+interface Ethernet2
+!
+interface Ethernet3
+!
+interface Ethernet4
+!
+interface Management0
+   description oob_management
+   vrf MGMT
+   ip address 172.100.100.2/24
+   ipv6 address 2001:172:100:100::b/80
+!
+no ip routing
+no ip routing vrf MGMT
+!
+ip route vrf MGMT 0.0.0.0/0 172.100.100.1
+!
+ipv6 route vrf MGMT ::/0 2001:172:100:100::1
+!
+router multicast
+   ipv4
+      software-forwarding kernel
+   !
+   ipv6
+      software-forwarding kernel
+!
+end

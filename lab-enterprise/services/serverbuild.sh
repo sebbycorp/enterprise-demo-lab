@@ -93,29 +93,29 @@ DNS='docker run --privileged -d --name technitium-dns \
 HAStart='sudo haproxy -f /usr/local/etc/haproxy/haproxy.cfg -D'
 
 echo "[INFO] Install Docker and start daemon"
-docker exec -u root -it clab-s2-DC1_client1 /bin/sh -c "${DOCKER}"
-docker exec -u root -it clab-s2-DC1_client2 /bin/sh -c "${DOCKER}"
-docker exec -u root -it clab-s2-DC1_client3 /bin/sh -c "${DOCKER}"
-docker exec -u root -it clab-s2-DC1_client4 /bin/sh -c "${DOCKER}"
+docker exec -u root -it clab-s2-dc1_client1 /bin/sh -c "${DOCKER}"
+docker exec -u root -it clab-s2-dc1_client2 /bin/sh -c "${DOCKER}"
+docker exec -u root -it clab-s2-dc1_client3 /bin/sh -c "${DOCKER}"
+docker exec -u root -it clab-s2-dc1_client4 /bin/sh -c "${DOCKER}"
 
-echo "[INFO] Configuring clab-s2-DC1_client1"
-docker exec -it clab-s2-DC1_client1 /bin/sh -c "$CMD1"
-docker exec -it clab-s2-DC1_client1 /bin/sh -c "$DNS"
+echo "[INFO] Configuring clab-s2-dc1_client1"
+docker exec -it clab-s2-dc1_client1 /bin/sh -c "$CMD1"
+docker exec -it clab-s2-dc1_client1 /bin/sh -c "$DNS"
 
 
 echo "[INFO] Configuring clab-s2-haproxy1 and clab-s2-haproxy2"
 docker exec -it clab-s2-haproxy1 /bin/sh -c "$haproxy1"
 docker exec -it clab-s2-haproxy2 /bin/sh -c "$haproxy2"
 
-echo "[INFO] Configuring clab-s2-DC1_client2"
-docker exec -it clab-s2-DC1_client2 /bin/sh -c "$CMD2"
+echo "[INFO] Configuring clab-s2-dc1_client2"
+docker exec -it clab-s2-dc1_client2 /bin/sh -c "$CMD2"
 
-echo "[INFO] Configuring clab-s2-DC1_client3"
-docker exec -it clab-s2-DC1_client3 /bin/sh -c "$CMD3"
+echo "[INFO] Configuring clab-s2-dc1_client3"
+docker exec -it clab-s2-dc1_client3 /bin/sh -c "$CMD3"
 
 
-echo "[INFO] Configuring clab-s2-DC1_client4"
-docker exec -it clab-s2-DC1_client4 /bin/sh -c "$CMD4"
+echo "[INFO] Configuring clab-s2-dc1_client4"
+docker exec -it clab-s2-dc1_client4 /bin/sh -c "$CMD4"
 
 echo "[INFO] Starting HAProxy"
 docker exec -it clab-s2-haproxy1 /bin/sh -c "$HAStart"
@@ -124,5 +124,5 @@ docker exec -it clab-s2-haproxy2 /bin/sh -c "$HAStart"
 
 echo "[INFO] SETUP DNS"
 echo "http://172.100.100.8:5380 and generate an API key"
-echo "Use [ docker exec -it clab-s2-DC1_client1 /bin/sh ] to login to host."
+echo "Use [ docker exec -it clab-s2-dc1_client1 /bin/sh ] to login to host."
 

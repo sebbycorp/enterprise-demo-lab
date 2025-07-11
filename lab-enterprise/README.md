@@ -1,4 +1,4 @@
-# Enterprise Demo Lab
+# Enterprise Lab Deployment
 
 ## Overview
 
@@ -46,9 +46,6 @@ The lab deploys a complete data center environment with:
 ### 1. Deploy the Complete Lab
 
 ```bash
-# Navigate to the lab directory
-cd lab-enterprise
-
 # Option 1: Using the build script
 ./build.sh
 
@@ -191,9 +188,6 @@ python3 traffic/dns_query_loop.py
 ### Destroy the Lab
 
 ```bash
-# Navigate to the lab directory
-cd lab-enterprise
-
 # Option 1: Using the destroy script
 ./destroy.sh
 
@@ -220,24 +214,21 @@ docker image prune -f
 ## File Structure
 
 ```
-enterprise-demo-lab/
-├── README.md                # This file
-├── lab-enterprise/          # Main lab directory
-│   ├── build.sh             # Main deployment script
-│   ├── destroy.sh           # Cleanup script
-│   ├── Makefile             # Make targets for deployment
-│   ├── topology.yaml        # ContainerLab topology definition
-│   ├── inventory.yaml       # Ansible inventory
-│   ├── ansible.cfg          # Ansible configuration
-│   ├── diagram.png          # Network topology diagram
-│   ├── playbooks/           # Ansible playbooks
-│   ├── group_vars/          # Ansible variables
-│   ├── templates/           # Configuration templates
-│   ├── services/            # Service deployment scripts
-│   ├── traffic/             # Traffic generation scripts
-│   ├── haproxy/             # HAProxy configurations
-│   └── clab-s2/             # ContainerLab generated files
-└── alpine-demo/             # Alpine Linux demo container
+lab-enterprise/
+├── build.sh                 # Main deployment script
+├── destroy.sh               # Cleanup script
+├── Makefile                 # Make targets for deployment
+├── topology.yaml            # ContainerLab topology definition
+├── inventory.yaml           # Ansible inventory
+├── ansible.cfg              # Ansible configuration
+├── diagram.png              # Network topology diagram
+├── playbooks/               # Ansible playbooks
+├── group_vars/              # Ansible variables
+├── templates/               # Configuration templates
+├── services/                # Service deployment scripts
+├── traffic/                 # Traffic generation scripts
+├── haproxy/                 # HAProxy configurations
+└── clab-s2/                 # ContainerLab generated files
 ```
 
 ## Advanced Usage
@@ -262,4 +253,4 @@ For issues or questions:
 
 ## License
 
-This lab is provided for educational and testing purposes. Please review the licensing terms for all included container images and software components.
+This lab is provided for educational and testing purposes. Please review the licensing terms for all included container images and software components. 
