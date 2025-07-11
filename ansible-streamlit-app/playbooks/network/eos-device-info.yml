@@ -1,0 +1,64 @@
+---
+- name: EOS Device Information Gathering
+  hosts: DC1_SPINES:DC1_LEAFS
+  gather_facts: false
+  
+  tasks:
+    - name: Gather device facts
+      arista.eos.eos_facts:
+        gather_subset:
+          - all
+      register: device_facts
+    
+    - name: Display device information
+      debug:
+        msg: |
+          Device: {{ inventory_hostname }}
+          Model: {{ ansible_net_model }}
+          Version: {{ ansible_net_version }}
+          Serial: {{ ansible_net_serialnum }}
+          Hostname: {{ ansible_net_hostname }}
+          Uptime: {{ ansible_net_uptime }}
+    
+    - name: Gather interface information
+      arista.eos.eos_interfaces:
+        state: gathered
+      register: interface_info
+    
+    - name: Display interface summary
+      debug:
+        msg: |
+          Device: {{ inventory_hostname }}
+          Total Interfaces: {{ interface_info.gathered | length }}
+          Interface List:
+          {% for interface in interface_info.gathered %}
+          - {{ interface.name }}: {{ interface.enabled | default('unknown') }}
+          {% endfor %}
+    
+    - name: Save device info to file
+      copy:
+        content: |
+          ===========================================
+          DEVICE INFORMATION REPORT
+          ===========================================
+          Generated: {{ ansible_date_time.iso8601 }}
+          
+          DEVICE: {{ inventory_hostname }}
+          - Model: {{ ansible_net_model }}
+          - Version: {{ ansible_net_version }}
+          - Serial: {{ ansible_net_serialnum }}
+          - Hostname: {{ ansible_net_hostname }}
+          - Uptime: {{ ansible_net_uptime }}
+          - Management IP: {{ ansible_host }}
+          
+          INTERFACES:
+          {% for interface in interface_info.gathered %}
+          - {{ interface.name }}: {{ 'UP' if interface.enabled else 'DOWN' }}
+          {% endfor %}
+        dest: "/tmp/{{ inventory_hostname }}_device_info.txt"
+        mode: '0644'
+      delegate_to: localhost
+    
+    - name: Report generation complete
+      debug:
+        msg: "Device info saved to /tmp/{{ inventory_hostname }}_device_info.txt" 

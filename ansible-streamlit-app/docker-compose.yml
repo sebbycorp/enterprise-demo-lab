@@ -1,7 +1,8 @@
 version: '3.8'
 
 services:
-  ansible-streamlit:
+  # Network Device Manager (default)
+  network-manager:
     build: .
     ports:
       - "8501:8501"
@@ -18,10 +19,29 @@ services:
       - STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
       - ANSIBLE_HOST_KEY_CHECKING=False
     restart: unless-stopped
-    
-    # Optional: Add network configuration for connecting to other containers
+    command: ["streamlit", "run", "network_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
     networks:
       - ansible-net
+
+  # General Ansible Playbook Runner
+  ansible-runner:
+    build: .
+    ports:
+      - "8502:8501"
+    volumes:
+      - ./playbooks:/app/playbooks
+      - ./logs:/app/logs
+    environment:
+      - STREAMLIT_SERVER_HEADLESS=true
+      - STREAMLIT_SERVER_ENABLE_CORS=false
+      - STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
+      - ANSIBLE_HOST_KEY_CHECKING=False
+    restart: unless-stopped
+    command: ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+    networks:
+      - ansible-net
+    profiles:
+      - general
 
 networks:
   ansible-net:

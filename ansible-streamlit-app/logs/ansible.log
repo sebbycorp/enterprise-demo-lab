@@ -1,0 +1,93 @@
+2025-07-11 16:44:53,436 p=34 u=root n=ansible | [WARNING]: Could not match supplied host pattern, ignoring: DC1_SPINES
+
+2025-07-11 16:44:53,437 p=34 u=root n=ansible | [WARNING]: Could not match supplied host pattern, ignoring: DC1_LEAFS
+
+2025-07-11 16:44:53,437 p=34 u=root n=ansible | PLAY [EOS Device Information Gathering] ****************************************
+2025-07-11 16:44:53,437 p=34 u=root n=ansible | skipping: no hosts matched
+2025-07-11 16:44:53,437 p=34 u=root n=ansible | PLAY RECAP *********************************************************************
+2025-07-11 16:45:08,240 p=40 u=root n=ansible | [WARNING]: Could not match supplied host pattern, ignoring: VYOS_FIREWALLS
+
+2025-07-11 16:45:08,241 p=40 u=root n=ansible | PLAY [VyOS Device Information Gathering] ***************************************
+2025-07-11 16:45:08,242 p=40 u=root n=ansible | skipping: no hosts matched
+2025-07-11 16:45:08,242 p=40 u=root n=ansible | PLAY RECAP *********************************************************************
+2025-07-11 16:45:48,982 p=46 u=root n=ansible | PLAY [System Information Gathering] ********************************************
+2025-07-11 16:45:48,991 p=46 u=root n=ansible | TASK [Gathering Facts] *********************************************************
+2025-07-11 16:45:49,734 p=46 u=root n=ansible | [WARNING]: Distribution debian 12 on host localhost should use
+/usr/bin/python3, but is using /usr/local/bin/python3.11, since the discovered
+platform python interpreter was not present. See
+https://docs.ansible.com/ansible-
+core/2.15/reference_appendices/interpreter_discovery.html for more information.
+
+2025-07-11 16:45:49,734 p=46 u=root n=ansible | ok: [localhost]
+2025-07-11 16:45:49,744 p=46 u=root n=ansible | TASK [Display Operating System Information] ************************************
+2025-07-11 16:45:49,759 p=46 u=root n=ansible | ok: [localhost] => 
+  msg: |-
+    OS Family: Debian
+    Distribution: Debian
+    Distribution Version: 12.11
+    Kernel: 6.8.0-51-generic
+2025-07-11 16:45:49,764 p=46 u=root n=ansible | TASK [Display Hardware Information] ********************************************
+2025-07-11 16:45:49,779 p=46 u=root n=ansible | ok: [localhost] => 
+  msg: |-
+    Architecture: x86_64
+    Processor Count: 1
+    Memory (MB): 31739
+2025-07-11 16:45:49,783 p=46 u=root n=ansible | TASK [Display Network Information] *********************************************
+2025-07-11 16:45:49,808 p=46 u=root n=ansible | ok: [localhost] => 
+  msg: |-
+    Hostname: dfefd41cc966
+    FQDN: dfefd41cc966
+    Default IPv4: N/A
+2025-07-11 16:45:49,813 p=46 u=root n=ansible | TASK [Display Disk Usage] ******************************************************
+2025-07-11 16:45:49,841 p=46 u=root n=ansible | ok: [localhost] => 
+  msg: |-
+    Available Mount Points:
+    /app/playbooks: 3.6 TB available / 3.9 TB total
+    /app/logs: 3.6 TB available / 3.9 TB total
+    /etc/resolv.conf: 3.6 TB available / 3.9 TB total
+    /etc/hostname: 3.6 TB available / 3.9 TB total
+    /etc/hosts: 3.6 TB available / 3.9 TB total
+2025-07-11 16:45:49,847 p=46 u=root n=ansible | TASK [Create system report] ****************************************************
+2025-07-11 16:45:50,340 p=46 u=root n=ansible | changed: [localhost]
+2025-07-11 16:45:50,343 p=46 u=root n=ansible | TASK [Report generation complete] **********************************************
+2025-07-11 16:45:50,355 p=46 u=root n=ansible | ok: [localhost] => 
+  msg: System report saved to /tmp/system-report.txt
+2025-07-11 16:45:50,371 p=46 u=root n=ansible | PLAY RECAP *********************************************************************
+2025-07-11 16:45:50,371 p=46 u=root n=ansible | localhost                  : ok=7    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+2025-07-11 17:00:56,255 p=27 u=root n=ansible | [WARNING]: Found variable using reserved name: action
+
+2025-07-11 17:00:56,255 p=27 u=root n=ansible | PLAY [EOS Interface Enable/Disable] ********************************************
+2025-07-11 17:00:56,278 p=27 u=root n=ansible | TASK [Skip if not target device] ***********************************************
+2025-07-11 17:00:56,290 p=27 u=root n=ansible | TASK [Skip if not target device] ***********************************************
+2025-07-11 17:00:56,295 p=27 u=root n=ansible | skipping: [DC1_SPINE2]
+2025-07-11 17:00:56,297 p=27 u=root n=ansible | TASK [Skip if not target device] ***********************************************
+2025-07-11 17:00:56,304 p=27 u=root n=ansible | TASK [Skip if not target device] ***********************************************
+2025-07-11 17:00:56,311 p=27 u=root n=ansible | TASK [Skip if not target device] ***********************************************
+2025-07-11 17:00:56,318 p=27 u=root n=ansible | TASK [Skip if not target device] ***********************************************
+2025-07-11 17:00:56,324 p=27 u=root n=ansible | TASK [Show current interface status] *******************************************
+2025-07-11 17:00:56,799 p=27 u=root n=ansible | platform_type is set to eos
+2025-07-11 17:00:57,203 p=27 u=root n=ansible | ok: [DC1_SPINE2]
+2025-07-11 17:00:57,206 p=27 u=root n=ansible | TASK [Display current interface status] ****************************************
+2025-07-11 17:00:57,624 p=27 u=root n=ansible | ok: [DC1_SPINE2] => 
+  msg: |-
+    Current status of Ethernet1 on DC1_SPINE2:
+    Port       Name                             Status       Vlan     Duplex Speed  Type            Flags Encapsulation
+    Et1        P2P_LINK_TO_DC1_LEAF1A_Ethernet2 connected    routed   full   1G     EbraTestPhyPort
+2025-07-11 17:00:57,627 p=27 u=root n=ansible | TASK [Configure interface - Enable] ********************************************
+2025-07-11 17:00:57,637 p=27 u=root n=ansible | skipping: [DC1_SPINE2]
+2025-07-11 17:00:57,639 p=27 u=root n=ansible | TASK [Configure interface - Disable] *******************************************
+2025-07-11 17:00:57,651 p=27 u=root n=ansible | fatal: [DC1_SPINE2]: FAILED! => 
+  msg: |-
+    The task includes an option with an undefined variable. The error was: 'ansible_date_time' is undefined. 'ansible_date_time' is undefined
+  
+    The error appears to be in '/app/playbooks/network/eos-interface-toggle.yml': line 39, column 7, but may
+    be elsewhere in the file depending on the exact syntax problem.
+  
+    The offending line appears to be:
+  
+  
+        - name: Configure interface - Disable
+          ^ here
+2025-07-11 17:00:57,653 p=27 u=root n=ansible | PLAY RECAP *********************************************************************
+2025-07-11 17:00:57,653 p=27 u=root n=ansible | DC1_SPINE2                 : ok=2    changed=0    unreachable=0    failed=1    skipped=1    rescued=0    ignored=0   
+2025-07-11 17:00:57,752 p=36 u=root n=ansible | shutdown complete

@@ -15,6 +15,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install Ansible collections for network devices
+RUN ansible-galaxy collection install arista.eos vyos.vyos community.network
+
 # Create directories for playbooks and app
 RUN mkdir -p /app/playbooks /app/logs
 

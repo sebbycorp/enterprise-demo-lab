@@ -1,0 +1,63 @@
+---
+- name: EOS Interface Status Check
+  hosts: DC1_SPINES:DC1_LEAFS
+  gather_facts: false
+  
+  vars:
+    target_device: "{{ target_host | default('all') }}"
+  
+  tasks:
+    - name: Skip if not target device
+      meta: end_host
+      when: 
+        - target_device != 'all'
+        - inventory_hostname != target_device
+    
+    - name: Gather interface facts
+      arista.eos.eos_interfaces:
+        state: gathered
+      register: interface_status
+    
+    - name: Get interface operational status
+      arista.eos.eos_command:
+        commands:
+          - show interfaces status
+      register: interface_oper_status
+    
+    - name: Display interface status
+      debug:
+        msg: |
+          ========================================
+          INTERFACE STATUS - {{ inventory_hostname }}
+          ========================================
+          {% for interface in interface_status.gathered %}
+          {{ interface.name }}:
+            - Admin Status: {{ 'UP' if interface.enabled else 'DOWN' }}
+            - Description: {{ interface.description | default('No description') }}
+          {% endfor %}
+    
+    - name: Display operational status output
+      debug:
+        var: interface_oper_status.stdout_lines[0]
+    
+    - name: Create interface status report
+      copy:
+        content: |
+          ========================================
+          INTERFACE STATUS REPORT
+          ========================================
+          Device: {{ inventory_hostname }}
+          Generated: {{ ansible_date_time.iso8601 }}
+          
+          CONFIGURED INTERFACES:
+          {% for interface in interface_status.gathered %}
+          {{ interface.name }}:
+            - Admin Status: {{ 'UP' if interface.enabled else 'DOWN' }}
+            - Description: {{ interface.description | default('No description') }}
+          {% endfor %}
+          
+          OPERATIONAL STATUS:
+          {{ interface_oper_status.stdout[0] }}
+        dest: "/tmp/{{ inventory_hostname }}_interface_status.txt"
+        mode: '0644'
+      delegate_to: localhost 

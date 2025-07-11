@@ -1,0 +1,67 @@
+---
+- name: VyOS Device Information Gathering
+  hosts: VYOS_FIREWALLS
+  gather_facts: false
+  
+  tasks:
+    - name: Gather VyOS facts
+      vyos.vyos.vyos_facts:
+        gather_subset:
+          - all
+      register: vyos_facts
+    
+    - name: Get system information
+      vyos.vyos.vyos_command:
+        commands:
+          - show version
+          - show interfaces
+          - show system uptime
+      register: system_info
+    
+    - name: Display device information
+      debug:
+        msg: |
+          Device: {{ inventory_hostname }}
+          Version: {{ ansible_net_version }}
+          Model: {{ ansible_net_model | default('VyOS Router') }}
+          Serial: {{ ansible_net_serialnum | default('N/A') }}
+          Hostname: {{ ansible_net_hostname }}
+    
+    - name: Display interface summary
+      debug:
+        msg: |
+          Device: {{ inventory_hostname }}
+          Available Interfaces:
+          {% for interface in ansible_net_interfaces.keys() %}
+          - {{ interface }}: {{ ansible_net_interfaces[interface].description | default('No description') }}
+          {% endfor %}
+    
+    - name: Save VyOS device info to file
+      copy:
+        content: |
+          ===========================================
+          VYOS DEVICE INFORMATION REPORT
+          ===========================================
+          Generated: {{ ansible_date_time.iso8601 }}
+          
+          DEVICE: {{ inventory_hostname }}
+          - Version: {{ ansible_net_version }}
+          - Model: {{ ansible_net_model | default('VyOS Router') }}
+          - Hostname: {{ ansible_net_hostname }}
+          - Management IP: {{ ansible_host }}
+          
+          SYSTEM VERSION:
+          {{ system_info.stdout[0] }}
+          
+          INTERFACES:
+          {{ system_info.stdout[1] }}
+          
+          UPTIME:
+          {{ system_info.stdout[2] }}
+        dest: "/tmp/{{ inventory_hostname }}_vyos_info.txt"
+        mode: '0644'
+      delegate_to: localhost
+    
+    - name: Report generation complete
+      debug:
+        msg: "VyOS device info saved to /tmp/{{ inventory_hostname }}_vyos_info.txt" 

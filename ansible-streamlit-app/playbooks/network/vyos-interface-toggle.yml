@@ -1,0 +1,96 @@
+---
+- name: VyOS Interface Enable/Disable
+  hosts: VYOS_FIREWALLS
+  gather_facts: false
+  
+  vars:
+    target_device: "{{ target_host | default('VYOS01') }}"
+    target_interface: "{{ interface_name | default('eth1') }}"
+    interface_action: "{{ action | default('disable') }}"  # enable or disable
+    interface_description: "{{ description | default('') }}"
+  
+  tasks:
+    - name: Skip if not target device
+      meta: end_host
+      when: inventory_hostname != target_device
+    
+    - name: Show current interface status
+      vyos.vyos.vyos_command:
+        commands:
+          - "show interfaces {{ target_interface }}"
+      register: current_status
+    
+    - name: Display current interface status
+      debug:
+        msg: |
+          Current status of {{ target_interface }} on {{ inventory_hostname }}:
+          {{ current_status.stdout[0] }}
+    
+    - name: Configure interface - Enable
+      vyos.vyos.vyos_interfaces:
+        config:
+          - name: "{{ target_interface }}"
+            enabled: true
+            description: "{{ interface_description if interface_description else 'Enabled via Streamlit App' }}"
+        state: merged
+      when: interface_action == 'enable'
+      register: enable_result
+    
+    - name: Configure interface - Disable
+      vyos.vyos.vyos_interfaces:
+        config:
+          - name: "{{ target_interface }}"
+            enabled: false
+            description: "{{ interface_description if interface_description else 'Disabled via Streamlit App' }}"
+        state: merged
+      when: interface_action == 'disable'
+      register: disable_result
+    
+    - name: Wait for interface change to take effect
+      pause:
+        seconds: 3
+    
+    - name: Verify interface status after change
+      vyos.vyos.vyos_command:
+        commands:
+          - "show interfaces {{ target_interface }}"
+      register: new_status
+    
+    - name: Display interface change result
+      debug:
+        msg: |
+          ========================================
+          VYOS INTERFACE CHANGE RESULT
+          ========================================
+          Device: {{ inventory_hostname }}
+          Interface: {{ target_interface }}
+          Action: {{ interface_action | upper }}
+          
+          BEFORE:
+          {{ current_status.stdout[0] }}
+          
+          AFTER:
+          {{ new_status.stdout[0] }}
+          
+          Status: {{ 'SUCCESS' if (enable_result.changed or disable_result.changed) else 'NO CHANGE NEEDED' }}
+    
+    - name: Save VyOS interface change log
+      copy:
+        content: |
+          ========================================
+          VYOS INTERFACE CHANGE LOG
+          ========================================
+          Timestamp: {{ ansible_date_time.iso8601 }}
+          Device: {{ inventory_hostname }}
+          Interface: {{ target_interface }}
+          Action: {{ interface_action | upper }}
+          Changed: {{ enable_result.changed or disable_result.changed }}
+          
+          BEFORE:
+          {{ current_status.stdout[0] }}
+          
+          AFTER:
+          {{ new_status.stdout[0] }}
+        dest: "/tmp/{{ inventory_hostname }}_{{ target_interface }}_vyos_change_log.txt"
+        mode: '0644'
+      delegate_to: localhost 
