@@ -1,13 +1,21 @@
-lab/documentation
-lab/documentation/*
-lab/intended
-lab/intended/*
-lab/reports
-lab/reports/*
-lab/snapshots
-lab/snapshots/*
+lab-enterprise/documentation
+lab-enterprise/documentation/*
+lab-enterprise/intended
+lab-enterprise/intended/*
+lab-enterprise/reports
+lab-enterprise/reports/*
+lab-enterprise/snapshots
+lab-enterprise/snapshots/*
 
 .topology.yaml.bak
 
-lab/clab-s2*
-lab/clab-s2/*
+lab-enterprise/clab-s2*
+lab-enterprise/clab-s2/*
+
+# Additional patterns for containerlab generated files
+lab-enterprise/clab-s2/*/flash/
+lab-enterprise/clab-s2/*/flash/*
+lab-enterprise/clab-s2/ansible-inventory.yml
+lab-enterprise/clab-s2/nornir-simple-inventory.yml
+lab-enterprise/clab-s2/topology-data.json
+
