@@ -2,10 +2,10 @@
 
 # Define client IPs, container names, and load balancer IPs
 CLIENTS=(
-  "10.1.10.101:clab-s2-dc2_client1:10.1.10.50"
-  "10.1.11.102:clab-s2-dc2_client2:10.1.11.50"
-  "10.1.10.103:clab-s2-dc2_client3:10.1.10.50"
-  "10.1.11.104:clab-s2-dc2_client4:10.1.11.50"
+  "10.1.10.101:clab-s2-dc1_client1:10.1.10.50"
+  "10.1.11.102:clab-s2-dc1_client2:10.1.11.50"
+  "10.1.10.103:clab-s2-dc1_client3:10.1.10.50"
+  "10.1.11.104:clab-s2-dc1_client4:10.1.11.50"
 )
 
 # iperf3 server IP

@@ -1,14 +1,6 @@
-lab-enterprise/documentation
-lab-enterprise/documentation/*
-lab-enterprise/intended
-lab-enterprise/intended/*
-lab-enterprise/reports
-lab-enterprise/reports/*
-lab-enterprise/snapshots
-lab-enterprise/snapshots/*
-
 .topology.yaml.bak
 
+# lab-enterprise directory ignores
 lab-enterprise/clab-s2*
 lab-enterprise/clab-s2/*
 
@@ -18,4 +10,13 @@ lab-enterprise/clab-s2/*/flash/*
 lab-enterprise/clab-s2/ansible-inventory.yml
 lab-enterprise/clab-s2/nornir-simple-inventory.yml
 lab-enterprise/clab-s2/topology-data.json
+
+# User-specified directories to ignore
+lab-enterprise/config_backup/
+lab-enterprise/custom_anta_catalogs/
+lab-enterprise/documentation/
+lab-enterprise/intended/
+lab-enterprise/reports/
+lab-enterprise/snapshots/
+
 

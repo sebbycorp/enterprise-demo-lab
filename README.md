@@ -1,5 +1,7 @@
 # Enterprise Demo Lab
 
+![Network Topology Diagram](lab-enterprise/diagram.png)
+
 ## Overview
 
 This is a comprehensive enterprise network lab that demonstrates a data center fabric topology using Arista cEOS switches with Ansible automation. The lab includes spine-leaf architecture, VyOS firewalls, HAProxy load balancers, and containerized services to simulate real-world enterprise networking scenarios.
