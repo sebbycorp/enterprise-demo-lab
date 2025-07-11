@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  ansible-streamlit:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      # Mount playbooks directory to allow easy adding/editing of playbooks
+      - ./playbooks:/app/playbooks
+      # Mount logs directory to persist logs
+      - ./logs:/app/logs
+      # Optional: Mount SSH keys if needed for remote hosts
+      # - ~/.ssh:/root/.ssh:ro
+    environment:
+      - STREAMLIT_SERVER_HEADLESS=true
+      - STREAMLIT_SERVER_ENABLE_CORS=false
+      - STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
+      - ANSIBLE_HOST_KEY_CHECKING=False
+    restart: unless-stopped
+    
+    # Optional: Add network configuration for connecting to other containers
+    networks:
+      - ansible-net
+
+networks:
+  ansible-net:
+    driver: bridge 

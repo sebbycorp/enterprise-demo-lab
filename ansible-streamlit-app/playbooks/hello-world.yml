@@ -1,0 +1,35 @@
+---
+- name: Hello World Playbook
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  
+  vars:
+    greeting: "Hello from Ansible!"
+    
+  tasks:
+    - name: Display greeting message
+      debug:
+        msg: "{{ greeting }}"
+    
+    - name: Show current date and time
+      debug:
+        msg: "Current time is {{ ansible_date_time.iso8601 }}"
+    
+    - name: Create a temporary file
+      file:
+        path: /tmp/ansible-test.txt
+        state: touch
+        mode: '0644'
+    
+    - name: Write content to file
+      copy:
+        content: |
+          This file was created by Ansible!
+          Execution time: {{ ansible_date_time.iso8601 }}
+          Hostname: {{ ansible_hostname }}
+        dest: /tmp/ansible-test.txt
+    
+    - name: Display file contents
+      debug:
+        msg: "File created successfully at /tmp/ansible-test.txt" 

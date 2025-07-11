@@ -1,0 +1,70 @@
+---
+- name: System Information Gathering
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  
+  tasks:
+    - name: Display Operating System Information
+      debug:
+        msg: |
+          OS Family: {{ ansible_os_family }}
+          Distribution: {{ ansible_distribution }}
+          Distribution Version: {{ ansible_distribution_version }}
+          Kernel: {{ ansible_kernel }}
+    
+    - name: Display Hardware Information
+      debug:
+        msg: |
+          Architecture: {{ ansible_architecture }}
+          Processor Count: {{ ansible_processor_count }}
+          Memory (MB): {{ ansible_memtotal_mb }}
+          
+    - name: Display Network Information
+      debug:
+        msg: |
+          Hostname: {{ ansible_hostname }}
+          FQDN: {{ ansible_fqdn }}
+          Default IPv4: {{ ansible_default_ipv4.address | default('N/A') }}
+    
+    - name: Display Disk Usage
+      debug:
+        msg: |
+          Available Mount Points:
+          {% for mount in ansible_mounts %}
+          {{ mount.mount }}: {{ mount.size_available | filesizeformat }} available / {{ mount.size_total | filesizeformat }} total
+          {% endfor %}
+    
+    - name: Create system report
+      copy:
+        content: |
+          ===========================================
+          SYSTEM INFORMATION REPORT
+          ===========================================
+          Generated: {{ ansible_date_time.iso8601 }}
+          
+          OPERATING SYSTEM:
+          - Family: {{ ansible_os_family }}
+          - Distribution: {{ ansible_distribution }} {{ ansible_distribution_version }}
+          - Kernel: {{ ansible_kernel }}
+          - Architecture: {{ ansible_architecture }}
+          
+          HARDWARE:
+          - Processor Count: {{ ansible_processor_count }}
+          - Memory: {{ ansible_memtotal_mb }} MB
+          
+          NETWORK:
+          - Hostname: {{ ansible_hostname }}
+          - FQDN: {{ ansible_fqdn }}
+          - Default IP: {{ ansible_default_ipv4.address | default('N/A') }}
+          
+          STORAGE:
+          {% for mount in ansible_mounts %}
+          - {{ mount.mount }}: {{ mount.size_available | filesizeformat }} free / {{ mount.size_total | filesizeformat }} total
+          {% endfor %}
+        dest: /tmp/system-report.txt
+        mode: '0644'
+    
+    - name: Report generation complete
+      debug:
+        msg: "System report saved to /tmp/system-report.txt" 
