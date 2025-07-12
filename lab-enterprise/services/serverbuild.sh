@@ -125,9 +125,3 @@ docker exec -it clab-s2-dc1_haproxy2 /bin/sh -c "$HAStart"
 echo "[INFO] SETUP DNS"
 echo "http://172.100.100.8:5380 and generate an API key"
 echo "Use [ docker exec -it clab-s2-dc1_client1 /bin/sh ] to login to host."
-
-dc1_client1
-mkdir -p ~/s2RemoteEngines/dc1_client1-agent-1 && cd ~/s2RemoteEngines/dc1_client1-agent-1
-wget wget https://demo3.selector.ai/s2agent/s2agent_docker.sh 
-
-sudo curl https://demo3.selector.ai/s2agent/s2agent_docker.sh | AGENTNAME=dc1_client1-agent-1 S2AP_DNS=demo3.selector.ai bash -s start
