@@ -251,19 +251,22 @@ interface Ethernet4
 !
 interface Ethernet5
    description server01_Eth2
-   channel-group 5 mode active
+   shutdown
 !
 interface Ethernet6
-   description server02_Eth2
-   channel-group 6 mode active
+   description server02_Eth1
+   switchport access vlan 111
+   switchport trunk allowed vlan 111
+   switchport mode trunk
+   spanning-tree portfast edge
 !
 interface Ethernet7
    description VyOS01_DC1_LEAF1B
    channel-group 7 mode active
 !
 interface Ethernet8
-   description HAPROXY01_DC1_LEAF1B
-   channel-group 9 mode active
+   description HAPROXY01
+   shutdown
 !
 interface Loopback0
    description EVPN_Overlay_Peering
