@@ -49,7 +49,7 @@ sudo ip link set up bond0.110; \
 sudo ip route add 10.1.0.0/16 via 10.1.10.10 dev bond0.110; \
 echo -e "nameserver 10.1.10.101\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf; \
 sudo ifconfig bond0.110; \
-sudo route -n''
+sudo route -n'
 
 # HAProxy configuration for haproxy2
 haproxy2='cat /etc/hostname; \
@@ -91,7 +91,7 @@ sudo ip link set up bond0.110; \
 sudo ip route add 10.1.0.0/16 via 10.1.10.10 dev bond0.110; \
 echo -e "nameserver 10.1.10.101\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf; \
 sudo ifconfig bond0.110; \
-sudo route -n''
+sudo route -n'
 
 # Network configuration for client4
 CMD4='cat /etc/hostname; \
@@ -105,8 +105,7 @@ sudo ip link set up bond0.111; \
 sudo ip route add 10.1.0.0/16 via 10.1.11.10 dev bond0.111; \
 echo -e "nameserver 10.1.10.101\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf; \
 sudo ifconfig bond0.111; \
-sudo route -n''
-
+sudo route -n'
 
 # PowerDNS configuration for client1
 DNS='docker run --privileged -d --name technitium-dns \
