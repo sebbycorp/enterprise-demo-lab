@@ -2,12 +2,16 @@
 
 # Network configuration for client1
 CMD1='cat /etc/hostname; \
-sudo vconfig add team0 110; \
-sudo ifconfig team0.110 10.1.10.101 netmask 255.255.255.0; \
-sudo ip link set up team0.110; \
-sudo ip route add 10.1.0.0/16 via 10.1.10.10 dev team0.110; \
+sudo ip link add name bond0 type bond; \
+sudo ip link set up bond0; \
+sudo ip link set up eth1; \
+sudo ip link set eth1 master bond0; \
+sudo vconfig add bond0 110; \
+sudo ifconfig bond0.110 10.1.10.101 netmask 255.255.255.0; \
+sudo ip link set up bond0.110; \
+sudo ip route add 10.1.0.0/16 via 10.1.10.10 dev bond0.110; \
 echo -e "nameserver 10.1.10.101\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf; \
-sudo ifconfig team0.110; \
+sudo ifconfig bond0.110; \
 sudo route -n'
 
 # Docker installation and daemon startup
@@ -32,52 +36,76 @@ else \
 fi'
 
 # HAProxy configuration for haproxy1
+
+
 haproxy1='cat /etc/hostname; \
-sudo vconfig add team0 110; \
-sudo ifconfig team0.110 10.1.10.50 netmask 255.255.255.0; \
-sudo ip link set up team0.110; \
-sudo ip route add 10.1.0.0/16 via 10.1.10.10 dev team0.110; \
-sudo ifconfig team0.110; \
-sudo route -n'
+sudo ip link add name bond0 type bond; \
+sudo ip link set up bond0; \
+sudo ip link set up eth1; \
+sudo ip link set eth1 master bond0; \
+sudo vconfig add bond0 110; \
+sudo ifconfig bond0.110 10.1.10.50 netmask 255.255.255.0; \
+sudo ip link set up bond0.110; \
+sudo ip route add 10.1.0.0/16 via 10.1.10.10 dev bond0.110; \
+echo -e "nameserver 10.1.10.101\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf; \
+sudo ifconfig bond0.110; \
+sudo route -n''
 
 # HAProxy configuration for haproxy2
 haproxy2='cat /etc/hostname; \
-sudo vconfig add team0 111; \
-sudo ifconfig team0.111 10.1.11.50 netmask 255.255.255.0; \
-sudo ip link set up team0.111; \
-sudo ip route add 10.1.0.0/16 via 10.1.11.10 dev team0.111; \
-sudo ifconfig team0.111; \
+sudo ip link add name bond0 type bond; \
+sudo ip link set up bond0; \
+sudo ip link set up eth1; \
+sudo ip link set eth1 master bond0; \
+sudo vconfig add bond0 111; \
+sudo ifconfig bond0.111 10.1.11.50 netmask 255.255.255.0; \
+sudo ip link set up bond0.111; \
+sudo ip route add 10.1.0.0/16 via 10.1.11.10 dev bond0.111; \
+echo -e "nameserver 10.1.10.101\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf; \
+sudo ifconfig bond0.111; \
 sudo route -n'
 
 # Network configuration for client2
 CMD2='cat /etc/hostname; \
-sudo vconfig add team0 111; \
-sudo ifconfig team0.111 10.1.11.102 netmask 255.255.255.0; \
-sudo ip link set up team0.111; \
-sudo ip route add 10.1.0.0/16 via 10.1.11.10 dev team0.111; \
+sudo ip link add name bond0 type bond; \
+sudo ip link set up bond0; \
+sudo ip link set up eth1; \
+sudo ip link set eth1 master bond0; \
+sudo vconfig add bond0 111; \
+sudo ifconfig bond0.111 10.1.11.102 netmask 255.255.255.0; \
+sudo ip link set up bond0.111; \
+sudo ip route add 10.1.0.0/16 via 10.1.11.10 dev bond0.111; \
 echo -e "nameserver 10.1.10.101\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf; \
-sudo ifconfig team0.111; \
+sudo ifconfig bond0.111; \
 sudo route -n'
 
 # Network configuration for client3
 CMD3='cat /etc/hostname; \
-sudo vconfig add team0 110; \
-sudo ifconfig team0.110 10.1.10.103 netmask 255.255.255.0; \
-sudo ip link set up team0.110; \
-sudo ip route add 10.1.0.0/16 via 10.1.10.10 dev team0.110; \
+sudo ip link add name bond0 type bond; \
+sudo ip link set up bond0; \
+sudo ip link set up eth1; \
+sudo ip link set eth1 master bond0; \
+sudo vconfig add bond0 110; \
+sudo ifconfig bond0.110 10.1.10.103 netmask 255.255.255.0; \
+sudo ip link set up bond0.110; \
+sudo ip route add 10.1.0.0/16 via 10.1.10.10 dev bond0.110; \
 echo -e "nameserver 10.1.10.101\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf; \
-sudo ifconfig team0.110; \
-sudo route -n'
+sudo ifconfig bond0.110; \
+sudo route -n''
 
 # Network configuration for client4
 CMD4='cat /etc/hostname; \
-sudo vconfig add team0 111; \
-sudo ifconfig team0.111 10.1.11.104 netmask 255.255.255.0; \
-sudo ip link set up team0.111; \
-sudo ip route add 10.1.0.0/16 via 10.1.11.10 dev team0.111; \
+sudo ip link add name bond0 type bond; \
+sudo ip link set up bond0; \
+sudo ip link set up eth1; \
+sudo ip link set eth1 master bond0; \
+sudo vconfig add bond0 111; \
+sudo ifconfig bond0.111 10.1.11.104 netmask 255.255.255.0; \
+sudo ip link set up bond0.111; \
+sudo ip route add 10.1.0.0/16 via 10.1.11.10 dev bond0.111; \
 echo -e "nameserver 10.1.10.101\nnameserver 8.8.8.8" | sudo tee /etc/resolv.conf; \
-sudo ifconfig team0.111; \
-sudo route -n'
+sudo ifconfig bond0.111; \
+sudo route -n''
 
 
 # PowerDNS configuration for client1
