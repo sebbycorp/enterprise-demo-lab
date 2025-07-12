@@ -14,21 +14,27 @@ topology:
   nodes:
     dc1_spine1:
       kind: ceos
+      startup-config: ./templates/dc1_spine1.tpl
       mgmt-ipv4: 172.100.100.2
     dc1_spine2:
       kind: ceos
+      startup-config: ./templates/dc1_spine2.tpl
       mgmt-ipv4: 172.100.100.3
     dc1_leaf1a:
       kind: ceos
+      startup-config: ./templates/dc1_leaf1a.tpl
       mgmt-ipv4: 172.100.100.4
     dc1_leaf1b:
       kind: ceos
+      startup-config: ./templates/dc1_leaf1b.tpl
       mgmt-ipv4: 172.100.100.5
     dc1_leaf2a:
       kind: ceos
+      startup-config: ./templates/dc1_leaf2a.tpl
       mgmt-ipv4: 172.100.100.6
     dc1_leaf2b:
       kind: ceos
+      startup-config: ./templates/dc1_leaf2b.tpl
       mgmt-ipv4: 172.100.100.7
     dc1_client1:
       kind: linux
