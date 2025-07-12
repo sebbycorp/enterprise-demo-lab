@@ -5,8 +5,8 @@
 # # Execute network-changes.yaml
 # - import_playbook: network-changes.yaml
 
-# Execute nhaproxynet.yaml
-- import_playbook: haproxynet.yaml
+# # Execute nhaproxynet.yaml
+# - import_playbook: haproxynet.yaml
 
 # Execute firewall.yaml
 - import_playbook: firewall.yaml
