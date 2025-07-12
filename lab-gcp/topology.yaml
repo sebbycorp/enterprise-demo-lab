@@ -111,7 +111,7 @@ topology:
     - endpoints: ["dc1_leaf2b:eth6", "dc1_client3:eth2"]
     
     - endpoints: ["dc1_leaf2b:eth5", "dc1_client4:eth1"]
-    - endpoints: ["dc1_leaf2a:eth7", "dc1_client4:eth2"]
+    - endpoints: ["dc1_leaf2a:eth6", "dc1_client4:eth2"]
     
     - endpoints: ["dc1_leaf1a:eth7", "dc1_vyos01:eth1"]
     - endpoints: ["dc1_leaf1b:eth7", "dc1_vyos01:eth2"]
