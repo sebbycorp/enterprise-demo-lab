@@ -1,9 +1,0 @@
----
-# Variables for Red Hat and Centos system
-
-# List of packages to install to enable DHCP package
-dhcp_packages:
-  - dhcp-server
-
-# DHCP service name
-dhcp_service: dhcpd

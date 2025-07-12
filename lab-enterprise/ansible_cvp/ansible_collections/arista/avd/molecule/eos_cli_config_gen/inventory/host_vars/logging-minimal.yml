@@ -1,7 +1,0 @@
-### Logging ###
-logging:
-  console: informational
-  monitor: debugging
-  facility: syslog
-  buffered:
-    size: 64000

@@ -1,8 +1,0 @@
-download_url: https://galaxy.ansible.com/api/v3/plugin/ansible/content/published/collections/artifacts/arista-eos-11.0.0.tar.gz
-format_version: 1.0.0
-name: eos
-namespace: arista
-server: https://galaxy.ansible.com/api/
-signatures: []
-version: 11.0.0
-version_url: /api/v3/plugin/ansible/content/published/collections/index/arista/eos/versions/11.0.0/
