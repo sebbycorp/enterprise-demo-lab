@@ -250,15 +250,14 @@ interface Ethernet4
    channel-group 3 mode active
 !
 interface Ethernet5
-   description server01_Eth2
-   shutdown
-!
-interface Ethernet6
-   description server02_Eth1
+   description server01_Eth1
    switchport access vlan 111
    switchport trunk allowed vlan 111
    switchport mode trunk
    spanning-tree portfast edge
+!
+interface Ethernet6
+  shutdown
 !
 interface Ethernet7
    description VyOS01_DC1_LEAF1B
