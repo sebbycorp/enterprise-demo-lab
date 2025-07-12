@@ -6,3 +6,4 @@ docker run -d \
   --shm-size=512m \
   kasmweb/desktop:1.15.0
 
+sudo apt install linux-modules-extra-$(uname -r)
