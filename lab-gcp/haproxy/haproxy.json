@@ -1,0 +1,101 @@
+{
+  "name": "haproxy",
+  "target": {
+    "name": "haproxy",
+    "attributes": {
+      "profile": "basic",
+      "community": "public",
+      "version": "V2C",
+      "port": "161",
+      "v3username": null,
+      "v3contextname": null,
+      "v3seclevel": null,
+      "v3authprotocol": null,
+      "v3authpassword": null,
+      "v3privprotocol": null,
+      "v3privpassword": null,
+      "authprofiles": null
+    }
+  },
+  "subscriptions": [
+    {
+      "name": "mib_system",
+      "attributes": {
+        "poll_interval": "120"
+      },
+      "groups": [
+        {
+          "name": "mib_system",
+          "attributes": null,
+          "values": {
+            "sysDescr": "1.3.6.1.2.1.1.1",
+            "sysObjectID": "1.3.6.1.2.1.1.2",
+            "sysUpTime": "1.3.6.1.2.1.1.3",
+            "sysContact": "1.3.6.1.2.1.1.4",
+            "sysName": "1.3.6.1.2.1.1.5",
+            "sysLocation": "1.3.6.1.2.1.1.6",
+            "sysServices": "1.3.6.1.2.1.1.7"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ifmib_ifxtable",
+      "attributes": {
+        "poll_interval": "120"
+      },
+      "groups": [
+        {
+          "name": "ifMib_ifXTable",
+          "attributes": null,
+          "values": {
+            "ifName": "1.3.6.1.2.1.31.1.1.1.1",
+            "ifDescr": "1.3.6.1.2.1.31.1.1.1.18",
+            "ifInUnknownProtos": "1.3.6.1.2.1.2.2.1.15",
+            "ifHighSpeed": "1.3.6.1.2.1.31.1.1.1.15",
+            "ifOperStatus": "1.3.6.1.2.1.2.2.1.8",
+            "ifXEntry": "1.3.6.1.2.1.31.1.1.1.3",
+            "ifHCInOctets": "1.3.6.1.2.1.31.1.1.1.6",
+            "ifHCOutOctets": "1.3.6.1.2.1.31.1.1.1.10",
+            "ifInErrors": "1.3.6.1.2.1.2.2.1.14",
+            "ifOutErrors": "1.3.6.1.2.1.2.2.1.20",
+            "ifInDiscards": "1.3.6.1.2.1.2.2.1.13",
+            "ifOutDiscards": "1.3.6.1.2.1.2.2.1.19",
+            "ifAdminStatus": "1.3.6.1.2.1.2.2.1.7",
+            "ifIndex": "1.3.6.1.2.1.2.2.1.1",
+            "ifLastChange": "1.3.6.1.2.1.2.2.1.9"
+          }
+        }
+      ]
+    },
+    {
+      "name": "haproxy_monitoring",
+      "attributes": {
+        "poll_interval": "60"
+      },
+      "groups": [
+        {
+          "name": "haproxy_status",
+          "attributes": null,
+          "values": {
+            "haproxyServiceStatus": "1.3.6.1.4.1.23263.1",
+            "backendStatus": "1.3.6.1.4.1.23263.3.1002",
+            "server1Status": "1.3.6.1.4.1.23263.3.1003",
+            "server2Status": "1.3.6.1.4.1.23263.3.1004",
+            "httpErrors": "1.3.6.1.4.1.23263.3.1005",
+            "connectionCount": "1.3.6.1.4.1.23263.3.1006",
+            "healthCheckClient1": "1.3.6.1.4.1.23263.3.1007",
+            "healthCheckClient2": "1.3.6.1.4.1.23263.3.1008",
+            "statsSocketStatus": "1.3.6.1.4.1.23263.3.1009",
+            "haproxyUptime": "1.3.6.1.4.1.23263.3.1010",
+            "statsInterfaceStatus": "1.3.6.1.4.1.23263.3.1011",
+            "loggingStatus": "1.3.6.1.4.1.23263.3.1012"
+          }
+        }
+      ]
+    }
+  ],
+  "uuid": "9c02108d-ebc7-426d-8ecc-dadca6ab02da",
+  "__s2_integration_name": "snmp",
+  "__s2_obj_version": "v1"
+}
