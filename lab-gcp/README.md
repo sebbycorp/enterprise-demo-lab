@@ -105,22 +105,6 @@ pip3 install --user \
     ipaddress
 ```
 
-### 7. Configure System Settings (otional skip this)
-```bash
-# Increase system limits for containers
-echo "* soft nofile 65536" | sudo tee -a /etc/security/limits.conf
-echo "* hard nofile 65536" | sudo tee -a /etc/security/limits.conf
-
-# Configure kernel parameters
-echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
-echo "net.ipv6.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf
-sudo sysctl -p
-
-# Enable IP forwarding temporarily
-sudo sysctl net.ipv4.ip_forward=1
-sudo sysctl net.ipv6.conf.all.forwarding=1
-```
-
 ## Pre-Deployment Setup
 
 ### 1. Clone the Repository
@@ -129,38 +113,28 @@ git clone https://github.com/sebastian-s2/enterprise-demo-lab/
 cd enterprise-demo-lab/lab-gcp
 ```
 
-### 2. Set Environment Variables
-```bash
-# Set required environment variables
-export PRIMARY_DNS="10.1.10.101"
-export SECONDARY_DNS="8.8.8.8"
-export SNMP_STRING="public"
-export LOGGING_SERVER="10.143.64.154"
-export OWNER="your-email@company.com"
-export DATACENTER_LOCATION="Your Data Center Location"
-```
+### 2. Edit Topology Environment Variables
+edit the `topology.yaml` file to set your environment variables. You can use the default values or customize them as needed.
 
+example below 10.143.64.154 is my gcp server IP address, change it to your own server IP address.
+```yaml
+      env:
+        PRIMARY_DNS: ${PRIMARY_DNS:-10.1.10.101}
+        SECONDARY_DNS: ${SECONDARY_DNS:-8.8.8.8}
+        SNMP_STRING: ${SNMP_STRING:-public}
+        LOGGING_SERVER: ${LOGGING_SERVER:-10.143.64.154}
+        OWNER: ${OWNER:-sebastianm@selector.ai}
+        DATACENTER_LOCATION: ${DATACENTER_LOCATION:-New York Data Center}
+```
+      
 ### 3. Make Scripts Executable
 ```bash
 chmod +x build.sh
 chmod +x destroy.sh
 chmod +x services/serverbuild.sh
-chmod +x services/deploy-apps.sh
 chmod +x traffic/traffic.sh
 ```
 
-### 4. Pull Required Container Images
-```bash
-# Pull container images to speed up deployment
-docker pull sebbycorp/ceosimage:4.33.4M
-docker pull alpine-gcp
-docker pull kasmweb/desktop:1.15.0
-
-# Additional images that may be needed
-docker pull nginx:alpine
-docker pull haproxy:alpine
-docker pull python:3.9-alpine
-```
 
 ## Deployment Process
 
@@ -168,6 +142,8 @@ docker pull python:3.9-alpine
 ```bash
 ./build.sh
 ```
+
+Note: You will need to provide the IP address of the logging server for the firewall to send logs too just type you GCP server IP address when prompted..
 
 ### 2. What the build.sh Script Does
 
@@ -193,9 +169,10 @@ The script performs the following operations:
 
 After successful deployment, you'll have access to:
 
-- **Kasm Desktop**: http://localhost:6901 (password: mypassword)
+- **Kasm Desktop**: http://<gcp IP>>:6901 (username:kasm_user password: mypassword)
 - **Network Management**: Switch management interfaces on 172.100.100.x network
 - **DNS Server**: Available at 172.100.100.8:5380
+- **CLIENT traffic starts at**: Available at http://172.100.100.8:5000
 - **Load Balancers**: HAProxy instances for traffic distribution
 
 ## Troubleshooting

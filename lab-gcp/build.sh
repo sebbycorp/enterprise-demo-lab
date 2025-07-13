@@ -29,10 +29,6 @@ echo "[INFO] Building servers..."
 echo "[INFO] Waiting for services to stabilize..."
 sleep 5
 
-# Deploy applications
-echo "[INFO] Deploying applications..."
-./services/deploy-apps.sh
-
 echo "[INFO] All services deployed successfully."
 echo "[INFO] Starting traffic generation..."
 
