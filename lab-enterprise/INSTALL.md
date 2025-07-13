@@ -105,7 +105,6 @@ If you need a specific version of Ansible Core, you can upgrade it:
 ```bash
 # Install/upgrade Ansible Core (version 2.15.0 to 2.17.x)
 pip3 install "ansible-core>=2.15.0,<2.18.0"
-sudo apt-get install ansible-core
 sudo apt-get install ansible
 
 # Verify installation
