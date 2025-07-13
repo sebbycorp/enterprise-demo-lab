@@ -2,6 +2,17 @@
 - name: Configure VyOS firewalls
   hosts: VYOS_FIREWALLS
   gather_facts: no
+  vars_prompt:
+    - name: syslog_server
+      prompt: "Enter the syslog server IP address"
+      private: no
+    - name: snmp_trap_target
+      prompt: "Enter the SNMP trap target IP address"
+      private: no
+    - name: snmp_community
+      prompt: "Enter the SNMP community string"
+      default: "public"
+      private: no
   tasks:
     - name: Apply VyOS configuration
       vyos.vyos.vyos_config:

@@ -37,7 +37,7 @@ service routing protocols model multi-agent
 logging buffered 32768 informational
 logging console errors
 logging monitor errors
-logging vrf MGMT host 172.16.10.118
+logging vrf MGMT host {{ .Env.LOGGING_SERVER }}
 logging format hostname fqdn
 logging facility local7
 logging vrf MGMT source-interface Management0
@@ -161,7 +161,7 @@ snmp-server chassis-id DC1_SPINE2
 snmp-server contact Network Operations sebatianm@selector.ai
 snmp-server location New York Data Center
 snmp-server community public ro
-snmp-server host 172.16.10.118 vrf MGMT version 2c public
+snmp-server host {{ .Env.LOGGING_SERVER }} vrf MGMT version 2c public
 snmp-server enable traps
 snmp-server enable traps snmp authentication
 snmp-server enable traps snmp link-down
