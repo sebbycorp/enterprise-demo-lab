@@ -105,7 +105,7 @@ pip3 install --user \
     ipaddress
 ```
 
-### 7. Configure System Settings
+### 7. Configure System Settings (otional skip this)
 ```bash
 # Increase system limits for containers
 echo "* soft nofile 65536" | sudo tee -a /etc/security/limits.conf
@@ -125,8 +125,8 @@ sudo sysctl net.ipv6.conf.all.forwarding=1
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
-cd enterprise-demo-lab
+git clone https://github.com/sebastian-s2/enterprise-demo-lab/
+cd enterprise-demo-lab/lab-gcp
 ```
 
 ### 2. Set Environment Variables
