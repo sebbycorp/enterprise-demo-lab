@@ -9,7 +9,7 @@ topology:
         PRIMARY_DNS: ${PRIMARY_DNS:-10.1.10.101}
         SECONDARY_DNS: ${SECONDARY_DNS:-8.8.8.8}
         SNMP_STRING: ${SNMP_STRING:-public}
-        LOGGING_SERVER: ${LOGGING_SERVER:-$(hostname -I | awk '{print $1}')}
+        LOGGING_SERVER: ${LOGGING_SERVER:-10.143.64.154}
         OWNER: ${OWNER:-sebastianm@selector.ai}
         DATACENTER_LOCATION: ${DATACENTER_LOCATION:-New York Data Center}
       exec:
