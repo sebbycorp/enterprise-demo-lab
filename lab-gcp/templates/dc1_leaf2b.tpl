@@ -158,7 +158,7 @@ ip name-server vrf MGMT 1.1.1.1
 ip name-server vrf MGMT 8.8.8.8
 !
 snmp-server chassis-id DC1_LEAF2B
-snmp-server contact Network Operations sebatianm@selector.ai
+snmp-server contact Network Operations {{ .Env.OWNER }}
 snmp-server location {{ .Env.DATACENTER_LOCATION }}
 snmp-server community {{ .Env.SNMP_STRING }} ro
 snmp-server host {{ .Env.LOGGING_SERVER }} vrf MGMT version 2c {{ .Env.SNMP_STRING }}

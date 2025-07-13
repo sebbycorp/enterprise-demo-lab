@@ -10,6 +10,7 @@ topology:
         SECONDARY_DNS: ${SECONDARY_DNS:-8.8.8.8}
         SNMP_STRING: ${SNMP_STRING:-public}
         LOGGING_SERVER: ${LOGGING_SERVER:-172.16.10.118}
+        OWNER: ${OWNER:-sebastianm@selector.ai}
         DATACENTER_LOCATION: ${DATACENTER_LOCATION:-New York Data Center}
       exec:
         - sleep 25
