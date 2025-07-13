@@ -200,10 +200,10 @@ CMD4DB='docker run --privileged -d -p 1521:1521 \
   
 docker exec -it clab-s2-dc1_client1 /bin/sh -c "$CMD1Client1"
 docker exec -it clab-s2-dc1_client1 /bin/sh -c "$WEB101"
-docker exec -it clab-s2-dc1_client1 /bin/sh -c "$WEBTOP"
+# docker exec -it clab-s2-dc1_client1 /bin/sh -c "$WEBTOP"
 docker exec -it clab-s2-dc1_client2 /bin/sh -c "$API102"
 docker exec -it clab-s2-dc1_client3 /bin/sh -c "$CMD3Client3"
-# docker exec -it clab-s2-dc1_client3 /bin/sh -c "$WEB103"
+docker exec -it clab-s2-dc1_client3 /bin/sh -c "$WEB103"
 docker exec -it clab-s2-dc1_client4 /bin/sh -c "$CMD4DB"
 docker exec -it clab-s2-dc1_client4 /bin/sh -c "$API104"
 

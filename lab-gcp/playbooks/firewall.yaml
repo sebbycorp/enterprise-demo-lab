@@ -3,32 +3,25 @@
   hosts: VYOS_FIREWALLS
   gather_facts: no
   vars_prompt:
-    - name: syslog_server
-      prompt: "Enter the syslog server IP address"
-      private: no
-    - name: snmp_trap_target
-      prompt: "Enter the SNMP trap target IP address"
-      private: no
-    - name: snmp_community
-      prompt: "Enter the SNMP community string"
-      default: "public"
+    - name:  syslog_server 
+      prompt: "Enter the syslog server IP address, should be where you engines are syslog snmp etc."
       private: no
   tasks:
     - name: Apply VyOS configuration
       vyos.vyos.vyos_config:
         lines:
           # Syslog configuration
-          - set system syslog remote 172.16.10.118 facility all level info
-          - set system syslog remote 172.16.10.118 port 514
-          - set system syslog remote 172.16.10.118 facility kern level warning
-          - set system syslog remote 172.16.10.118 facility auth level info
-          - set system syslog remote 172.16.10.118 facility daemon level info
-          - set system syslog remote 172.16.10.118 facility local7 level debug
+          - set system syslog remote {{ syslog_server }} facility all level info
+          - set system syslog remote {{ syslog_server }} port 514
+          - set system syslog remote {{ syslog_server }} facility kern level warning
+          - set system syslog remote {{ syslog_server }} facility auth level info
+          - set system syslog remote {{ syslog_server }} facility daemon level info
+          - set system syslog remote {{ syslog_server }} facility local7 level debug
           # SNMP configuration
           - set service snmp community public authorization ro
           - set service snmp community public network 0.0.0.0/0
-          - set service snmp trap-target 172.16.10.118 community public
-          - set service snmp trap-target 172.16.10.118 port 162
+          - set service snmp trap-target {{ syslog_server }} community public
+          - set service snmp trap-target {{ syslog_server }} port 162
           # LLDP configuration
           - set service lldp interface all
           - set service lldp snmp
