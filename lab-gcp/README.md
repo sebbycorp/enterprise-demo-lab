@@ -3,7 +3,7 @@
 ## Overview
 This deployment guide provides step-by-step instructions for setting up the Enterprise GCP Demo Lab on Ubuntu servers in GKE. The lab deploys a comprehensive enterprise network simulation with Arista cEOS switches, VyOS firewalls, HAProxy load balancers, and containerized services.
 
-![Network Topology Diagram](lab-gcp/diagram.png)
+![Network Topology Diagram](diagram.png)
 
 ## System Requirements
 - Ubuntu 20.04 LTS or later
