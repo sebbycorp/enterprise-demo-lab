@@ -5,7 +5,6 @@ service routing protocols model multi-agent
 !
 vrf instance MGMT
 !
-!
 interface Management0
    description oob_management
    vrf MGMT
