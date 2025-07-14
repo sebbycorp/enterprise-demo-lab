@@ -182,32 +182,32 @@ CMD4DB='docker run --privileged -d -p 1521:1521 \
   nicholasjackson/fake-service:v0.7.1'
 
 
-CMdcADVISOR='docker run --privileged -d --name=cadvisor -p 5001:5001 \
-  --log-driver=syslog \
-  --log-opt syslog-address=udp://172.16.10.118:514 \
-  --volume=/:/rootfs:ro \
-  --volume=/var/run:/var/run:ro \
-  --volume=/sys:/sys:ro \
-  --volume=/var/lib/docker/:/var/lib/docker:ro \
-  google/cadvisor:latest'
+# CMdcADVISOR='docker run --privileged -d --name=cadvisor -p 5001:5001 \
+#   --log-driver=syslog \
+#   --log-opt syslog-address=udp://172.16.10.118:514 \
+#   --volume=/:/rootfs:ro \
+#   --volume=/var/run:/var/run:ro \
+#   --volume=/sys:/sys:ro \
+#   --volume=/var/lib/docker/:/var/lib/docker:ro \
+#   google/cadvisor:latest'
   
-WEBTOP='docker run -d \
-  --name=kasm \
-  -p 6901:6901 \
-  -e VNC_PW=W3lcoe098! \
-  --shm-size=512m \
-  kasmweb/desktop:1.15.0'
+# WEBTOP='docker run -d \
+#   --name=kasm \
+#   -p 6901:6901 \
+#   -e VNC_PW=W3lcoe098! \
+#   --shm-size=512m \
+#   kasmweb/desktop:1.15.0'
 
 docker exec -it clab-s2-dc1_client1 /bin/sh -c "$CMD1Client1"
 docker exec -it clab-s2-dc1_client1 /bin/sh -c "$WEB101"
-docker exec -it clab-s2-dc1_client1 /bin/sh -c "$WEBTOP"
+# docker exec -it clab-s2-dc1_client1 /bin/sh -c "$WEBTOP"
 docker exec -it clab-s2-dc1_client2 /bin/sh -c "$API102"
 docker exec -it clab-s2-dc1_client3 /bin/sh -c "$CMD3Client3"
 docker exec -it clab-s2-dc1_client3 /bin/sh -c "$WEB103"
 docker exec -it clab-s2-dc1_client4 /bin/sh -c "$CMD4DB"
 docker exec -it clab-s2-dc1_client4 /bin/sh -c "$API104"
 
-docker exec -it clab-s2-dc1_client1 /bin/sh -c "$CMdcADVISOR"
-docker exec -it clab-s2-dc1_client2 /bin/sh -c "$CMdcADVISOR"
-docker exec -it clab-s2-dc1_client3 /bin/sh -c "$CMdcADVISOR"
-docker exec -it clab-s2-dc1_client4 /bin/sh -c "$CMdcADVISOR"
+# docker exec -it clab-s2-dc1_client1 /bin/sh -c "$CMdcADVISOR"
+# docker exec -it clab-s2-dc1_client2 /bin/sh -c "$CMdcADVISOR"
+# docker exec -it clab-s2-dc1_client3 /bin/sh -c "$CMdcADVISOR"
+# docker exec -it clab-s2-dc1_client4 /bin/sh -c "$CMdcADVISOR"
