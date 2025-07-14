@@ -2,9 +2,92 @@
 
 ![Network Topology Diagram](lab-enterprise/diagram.png)
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Lab Environments](#lab-environments)
+  - [Lab-Enterprise (Local Ubuntu Environment)](#lab-enterprise-local-ubuntu-environment)
+  - [Lab-GCP (Google Cloud Platform Environment)](#lab-gcp-google-cloud-platform-environment)
+- [Network Topology](#network-topology)
+  - [Core Components](#core-components)
+  - [Network Architecture](#network-architecture)
+- [Prerequisites](#prerequisites)
+  - [Software Requirements](#software-requirements)
+  - [Images Required](#images-required)
+  - [System Requirements](#system-requirements)
+- [Quick Start](#quick-start)
+  - [1. Deploy the Complete Lab](#1-deploy-the-complete-lab)
+  - [2. Verify Deployment](#2-verify-deployment)
+  - [3. Access the Lab](#3-access-the-lab)
+- [Deployment Process](#deployment-process)
+- [Services Deployed](#services-deployed)
+  - [Database Service](#database-service)
+  - [API Service](#api-service)
+  - [Web Frontend](#web-frontend)
+  - [Client Services](#client-services)
+- [Configuration Management](#configuration-management)
+  - [Ansible Playbooks](#ansible-playbooks)
+  - [Configuration Variables](#configuration-variables)
+- [Traffic Generation](#traffic-generation)
+- [Management and Monitoring](#management-and-monitoring)
+  - [Device Access](#device-access)
+  - [Monitoring](#monitoring)
+- [Troubleshooting](#troubleshooting)
+  - [Common Issues](#common-issues)
+- [Cleanup](#cleanup)
+  - [Destroy the Lab](#destroy-the-lab)
+  - [Complete Cleanup](#complete-cleanup)
+- [File Structure](#file-structure)
+- [Advanced Usage](#advanced-usage)
+  - [Custom Configurations](#custom-configurations)
+  - [Development](#development)
+- [Support](#support)
+- [License](#license)
+
 ## Overview
 
 This is a comprehensive enterprise network lab that demonstrates a data center fabric topology using Arista cEOS switches with Ansible automation. The lab includes spine-leaf architecture, VyOS firewalls, HAProxy load balancers, and containerized services to simulate real-world enterprise networking scenarios.
+
+## Lab Environments
+
+This repository contains two distinct lab environments that can be deployed based on your infrastructure preferences:
+
+### Lab-Enterprise (Local Ubuntu Environment)
+
+The **lab-enterprise** directory contains a complete data center lab designed for deployment on local Ubuntu systems using ContainerLab. This environment is ideal for:
+
+- **Local Development**: Perfect for developers and network engineers working on their local machines
+- **Testing and Learning**: Provides a full-featured environment for testing network configurations and learning data center networking concepts
+- **Offline Usage**: Can be deployed without internet connectivity once prerequisites are installed
+- **Resource Control**: Full control over compute resources and deployment timing
+
+**Key Features:**
+- Complete spine-leaf topology with Arista cEOS switches
+- VyOS firewalls and HAProxy load balancers
+- Containerized services simulation
+- Automated traffic generation
+- SNMP monitoring and logging
+
+### Lab-GCP (Google Cloud Platform Environment)
+
+The **lab-gcp** directory contains a cloud-native version of the lab optimized for deployment on Google Cloud Platform infrastructure. This environment provides:
+
+- **Cloud Scalability**: Leverages GCP's compute and networking capabilities
+- **Remote Access**: Accessible from anywhere with internet connectivity
+- **Managed Infrastructure**: Benefits from GCP's managed services and reliability
+- **Collaboration**: Multiple users can access and work with the same lab instance
+- **Integration**: Can integrate with other GCP services and tools
+
+**Key Features:**
+- GCP-optimized deployment scripts and configurations
+- Integration with GCP networking services
+- Remote engine deployment capabilities
+- Cloud-native monitoring and logging
+- Scalable compute resources
+
+**Choosing Your Environment:**
+- Use **lab-enterprise** for local development, testing, and learning
+- Use **lab-gcp** for cloud-based deployments, remote access, and production-like scenarios
 
 ## Network Topology
 
