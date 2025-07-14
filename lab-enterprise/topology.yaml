@@ -5,6 +5,13 @@ topology:
     ceos:
       startup-config: ./templates/ceos.cfg.tpl
       image: sebbycorp/ceosimage:4.33.4M
+      env:
+        PRIMARY_DNS: ${PRIMARY_DNS:-10.1.10.101}
+        SECONDARY_DNS: ${SECONDARY_DNS:-8.8.8.8}
+        SNMP_STRING: ${SNMP_STRING:-public}
+        LOGGING_SERVER: ${LOGGING_SERVER:-10.143.64.154}
+        OWNER: ${OWNER:-sebastianm@selector.ai}
+        DATACENTER_LOCATION: ${DATACENTER_LOCATION:-New York Data Center}
       exec:
         - sleep 25
         - FastCli -p 15 -c 'security pki key generate rsa 4096 eAPI.key'

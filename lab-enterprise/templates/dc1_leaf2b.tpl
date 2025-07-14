@@ -158,10 +158,10 @@ ip name-server vrf MGMT 1.1.1.1
 ip name-server vrf MGMT 8.8.8.8
 !
 snmp-server chassis-id DC1_LEAF2B
-snmp-server contact Network Operations sebatianm@selector.ai
-snmp-server location New York Data Center
-snmp-server community public ro
-snmp-server host {{ .Env.LOGGING_SERVER }} vrf MGMT version 2c public
+snmp-server contact Network Operations {{ .Env.OWNER }}
+snmp-server location {{ .Env.DATACENTER_LOCATION }}
+snmp-server community {{ .Env.SNMP_STRING }} ro
+snmp-server host {{ .Env.LOGGING_SERVER }} vrf MGMT version 2c {{ .Env.SNMP_STRING }}
 snmp-server enable traps
 snmp-server enable traps snmp authentication
 snmp-server enable traps snmp link-down
@@ -250,20 +250,22 @@ interface Ethernet4
    channel-group 3 mode active
 !
 interface Ethernet5
-   description server03_Eth2
-   channel-group 5 mode active
+   description server04_Eth1
+   switchport access vlan 111
+   switchport trunk allowed vlan 111
+   switchport mode trunk
+   spanning-tree portfast edge
 !
 interface Ethernet6
-   description server04_Eth2
-   channel-group 6 mode active
+   shutdown
 !
 interface Ethernet7
    description VyOS02_DC1_LEAF2B
    channel-group 8 mode active
 !
 interface Ethernet8
-   description HAPROXY02_DC1_LEAF2B
-   channel-group 10 mode active
+   description HAPROXY02
+   shutdown
 !
 interface Loopback0
    description EVPN_Overlay_Peering
