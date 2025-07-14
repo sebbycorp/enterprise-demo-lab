@@ -231,8 +231,8 @@ python3 traffic/dns_query_loop.py
 ## Management and Monitoring
 
 ### Device Access
-- **Switch CLI**: `ssh admin@172.100.100.X` (admin/admin)
-- **VyOS CLI**: `ssh vyos@172.100.100.1[2-3]` (vyos/vyos)
+- **Switch CLI**: `ssh admin@172.100.100.X` (username: admin, password: admin)
+- **VyOS CLI**: `ssh vyos@172.100.100.1[2-3]` (username: vyos, password: vyos)
 - **Container Access**: `docker exec -it <container> /bin/bash`
 
 ### Monitoring
