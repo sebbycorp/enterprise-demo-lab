@@ -13,14 +13,14 @@ This deployment guide provides step-by-step instructions for setting up the Ente
 - Sudo privileges
 - Internet connectivity for downloading packages and container images
 
-## Prerequisites Installation
+## Prerequisites Installation (Note if you have them then skip to step ## Pre-Deployment Setup )
 
 ### 1. Update System Packages
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
 
-### 2. Install Essential Tools
+### 2. Install Essential Tools 
 ```bash
 sudo apt install -y \
     curl \

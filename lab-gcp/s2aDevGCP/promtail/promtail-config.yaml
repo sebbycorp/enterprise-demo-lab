@@ -1,0 +1,96 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /promtail/.positions.yaml
+
+clients:
+  - url: http://s2-loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: demo3-logs
+    loki_push_api:
+      server:
+        http_listen_port: 3600
+        grpc_listen_port: 0
+    pipeline_stages:
+      - match:
+          selector: '{app!~"s2-apiserver"}'
+          stages:
+            - json:
+                expressions:
+                  message:
+      - output:
+          source: message
+  - job_name: fluentd
+    loki_push_api:
+      server:
+        http_listen_port: 3500
+        grpc_listen_port: 0
+    pipeline_stages:
+      - match:
+          selector: '{app!~"s2-apiserver|s2-engine"}'
+          stages:
+            - json:
+                expressions:
+                  message:
+      - match:
+          selector: '{app=~"s2-apiserver|s2-engine"}'
+          stages:
+            - json:
+                expressions:
+                  level:
+                  message: msg
+            - labels:
+                level:
+      - output:
+          source: message
+  - job_name: syslog
+    syslog:
+      listen_address: 0.0.0.0:8010
+      idle_timeout: 60s
+      label_structured_data: no
+      labels:
+        job: "syslog"
+    pipeline_stages:
+      - json:
+          expressions:
+            device_name:
+            message:
+            interface_name:
+            interface_ip_address:
+            peer_device:
+            peer_interface:
+            peer_interface_ip_address:
+            local_ip_address:
+            peer_ip_address:
+            asn:
+            username:
+            bfd_session_id:
+      - labels:
+          device_name:
+          interface_name:
+          interface_ip_address:
+          peer_device:
+          peer_interface:
+          peer_interface_ip_address:
+          local_ip_address:
+          peer_ip_address:
+          message:
+          asn:
+          username:
+          bfd_session_id:
+      - output:
+          source: message
+    relabel_configs:
+      - source_labels: ["__syslog_connection_ip_address"]
+        target_label: "host"
+      - source_labels: ["__syslog_message_severity"]
+        target_label: "severity"
+      - source_labels: ["__syslog_message_facility"]
+        target_label: "facility"
+      - source_labels: ["__syslog_message_app_name"]
+        target_label: "app"
+      - source_labels: ["__syslog_message_hostname"]
+        target_label: "hostname"

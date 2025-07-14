@@ -1,0 +1,342 @@
+{
+  "name": "arista",
+  "target": {
+    "name": "arista",
+    "attributes": {
+      "profile": "arista",
+      "community": "public",
+      "version": "V2C",
+      "port": "161",
+      "v3username": null,
+      "v3contextname": null,
+      "v3seclevel": null,
+      "v3authprotocol": null,
+      "v3authpassword": null,
+      "v3privprotocol": null,
+      "v3privpassword": null,
+      "authprofiles": null
+    }
+  },
+  "subscriptions": [
+    {
+      "name": "mib_system",
+      "attributes": {
+        "poll_interval": "120"
+      },
+      "groups": [
+        {
+          "name": "mib_system",
+          "attributes": null,
+          "values": {
+            "sysUpTime": "1.3.6.1.2.1.1.3",
+            "sysObjectID": "1.3.6.1.2.1.1.2",
+            "sysDescr": "1.3.6.1.2.1.1.1",
+            "sysContact": "1.3.6.1.2.1.1.4",
+            "sysName": "1.3.6.1.2.1.1.5",
+            "sysLocation": "1.3.6.1.2.1.1.6",
+            "sysServices": "1.3.6.1.2.1.1.7"
+          }
+        }
+      ]
+    },
+    {
+      "name": "system",
+      "attributes": {
+        "poll_interval": "120"
+      },
+      "groups": [
+        {
+          "name": "hostResourcesMibModule_hrStorageTable",
+          "attributes": null,
+          "values": {
+            "hrStorageSize": "1.3.6.1.2.1.25.2.3.1.5",
+            "hrStorageUsed": "1.3.6.1.2.1.25.2.3.1.6",
+            "hrStorageIndex": "1.3.6.1.2.1.25.2.3.1.1",
+            "hrStorageDescr": "1.3.6.1.2.1.25.2.3.1.3",
+            "hrStorageType": "1.3.6.1.2.1.25.2.3.1.2"
+          }
+        },
+        {
+          "name": "hostResourcesMibModule_hrDeviceTable",
+          "attributes": null,
+          "values": {
+            "hrProcessorLoad": "1.3.6.1.2.1.25.3.3.1.2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "bgpMib_bgpPeerTable",
+      "attributes": {
+        "poll_interval": "120"
+      },
+      "groups": [
+        {
+          "name": "bgpMib_bgpPeerTable",
+          "attributes": null,
+          "values": {
+            "bgpPeerAdminStatus": "1.3.6.1.2.1.15.3.1.3",
+            "bgpPeerConnectRetryInterval": "1.3.6.1.2.1.15.3.1.17",
+            "bgpPeerFsmEstablishedTime": "1.3.6.1.2.1.15.3.1.16",
+            "bgpPeerFsmEstablishedTransitions": "1.3.6.1.2.1.15.3.1.15",
+            "bgpPeerHoldTime": "1.3.6.1.2.1.15.3.1.18",
+            "bgpPeerHoldTimeConfigured": "1.3.6.1.2.1.15.3.1.20",
+            "bgpPeerInTotalMessages": "1.3.6.1.2.1.15.3.1.12",
+            "bgpPeerInUpdateElapsedTime": "1.3.6.1.2.1.15.3.1.24",
+            "bgpPeerInUpdates": "1.3.6.1.2.1.15.3.1.10",
+            "bgpPeerKeepAlive": "1.3.6.1.2.1.15.3.1.19",
+            "bgpPeerKeepAliveConfigured": "1.3.6.1.2.1.15.3.1.21",
+            "bgpPeerLastError": "1.3.6.1.2.1.15.3.1.14",
+            "bgpPeerLocalAddr": "1.3.6.1.2.1.15.3.1.5",
+            "bgpPeerMinASOriginationInterval": "1.3.6.1.2.1.15.3.1.22",
+            "bgpPeerMinRouteAdvertisementInterval": "1.3.6.1.2.1.15.3.1.23",
+            "bgpPeerOutTotalMessages": "1.3.6.1.2.1.15.3.1.13",
+            "bgpPeerOutUpdates": "1.3.6.1.2.1.15.3.1.11",
+            "bgpPeerRemoteAddr": "1.3.6.1.2.1.15.3.1.7",
+            "bgpPeerRemoteAs": "1.3.6.1.2.1.15.3.1.9",
+            "bgpPeerState": "1.3.6.1.2.1.15.3.1.2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ifmib_ifxtable",
+      "attributes": {
+        "poll_interval": "120"
+      },
+      "groups": [
+        {
+          "name": "ifMib_ifXTable",
+          "attributes": null,
+          "values": {
+            "ifName": "1.3.6.1.2.1.31.1.1.1.1",
+            "ifDescr": "1.3.6.1.2.1.31.1.1.1.18",
+            "ifInUnknownProtos": "1.3.6.1.2.1.2.2.1.15",
+            "ifHighSpeed": "1.3.6.1.2.1.31.1.1.1.15",
+            "ifOperStatus": "1.3.6.1.2.1.2.2.1.8",
+            "ifXEntry": "1.3.6.1.2.1.31.1.1.1.3",
+            "ifHCInOctets": "1.3.6.1.2.1.31.1.1.1.6",
+            "ifHCOutOctets": "1.3.6.1.2.1.31.1.1.1.10",
+            "ifInErrors": "1.3.6.1.2.1.2.2.1.14",
+            "ifOutErrors": "1.3.6.1.2.1.2.2.1.20",
+            "ifInDiscards": "1.3.6.1.2.1.2.2.1.13",
+            "ifOutDiscards": "1.3.6.1.2.1.2.2.1.19",
+            "ifAdminStatus": "1.3.6.1.2.1.2.2.1.7",
+            "ifIndex": "1.3.6.1.2.1.2.2.1.1",
+            "ifLastChange": "1.3.6.1.2.1.2.2.1.9"
+          }
+        }
+      ]
+    },
+    {
+      "name": "entity_list",
+      "attributes": {
+        "poll_interval": "120"
+      },
+      "groups": [
+        {
+          "name": "entityMIB_entityPhysical",
+          "attributes": null,
+          "values": {
+            "entity_physical_index": "1.3.6.1.2.1.47.1.1.1.1.1",
+            "entity_mfg": "1.3.6.1.2.1.47.1.1.1.1.12",
+            "entity_description": "1.3.6.1.2.1.47.1.1.1.1.2",
+            "entity_serial_number": "1.3.6.1.2.1.47.1.1.1.1.11",
+            "entity_name": "1.3.6.1.2.1.47.1.1.1.1.7",
+            "entity_model_name": "1.3.6.1.2.1.47.1.1.1.1.13"
+          }
+        }
+      ]
+    },
+    {
+      "name": "isis",
+      "attributes": {
+        "poll_interval": "60"
+      },
+      "groups": [
+        {
+          "name": "isisSystem_isisSysObject",
+          "attributes": null,
+          "values": {
+            "isisSysID": "1.3.6.1.2.1.138.1.1.1.3"
+          }
+        },
+        {
+          "name": "isisCirc_isisCircTable",
+          "attributes": null,
+          "values": {
+            "isisCircIfIndex": "1.3.6.1.2.1.138.1.3.2.1.2",
+            "isisCircType": "1.3.6.1.2.1.138.1.3.2.1.5"
+          }
+        },
+        {
+          "name": "isisISAdj_isisISAdjIPAddrTable",
+          "attributes": null,
+          "values": {
+            "isisISAdjIPAddrType": "1.3.6.1.2.1.138.1.6.3.1.2",
+            "isisISAdjIPAddrAddress": "1.3.6.1.2.1.138.1.6.3.1.3"
+          }
+        },
+        {
+          "name": "isisISAdj_isisISAdjTable",
+          "attributes": null,
+          "values": {
+            "isisISAdjState": "1.3.6.1.2.1.138.1.6.1.1.2",
+            "isisISAdjNeighSysType": "1.3.6.1.2.1.138.1.6.1.1.5",
+            "isisISAdjNeighSysID.ToHexString()": "1.3.6.1.2.1.138.1.6.1.1.6",
+            "isisISAdjLastUpTime": "1.3.6.1.2.1.138.1.6.1.1.11",
+            "isisSysID": "1.3.6.1.2.1.138.1.1.1.3"
+          }
+        }
+      ]
+    },
+    {
+      "name": "lldp",
+      "attributes": {
+        "poll_interval": "132"
+      },
+      "groups": [
+        {
+          "name": "lldpMib_lldpRemTable",
+          "attributes": null,
+          "values": {
+            "lldpRemPortId.ToHexString()": "1.0.8802.1.1.2.1.4.1.1.7",
+            "lldpRemSysName": "1.0.8802.1.1.2.1.4.1.1.9"
+          }
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "attributes": {
+        "poll_interval": "120"
+      },
+      "groups": [
+        {
+          "name": "entitySensorMib_entPhySensorTable",
+          "attributes": null,
+          "values": {
+            "type": "1.3.6.1.2.1.99.1.1.1.1",
+            "value": "1.3.6.1.2.1.99.1.1.1.4",
+            "entPhysicalDescr": "1.3.6.1.2.1.47.1.1.1.1.2",
+            "entPhySensorOperStatus": "1.3.6.1.2.1.99.1.1.1.5",
+            "entPhySensorScale": "1.3.6.1.2.1.99.1.1.1.2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ipmib_ipaddresstable",
+      "attributes": {
+        "poll_interval": "240"
+      },
+      "groups": [
+        {
+          "name": "ipMib_ipAddrTable",
+          "attributes": null,
+          "values": {
+            "ipAdEntAddr": "1.3.6.1.2.1.4.20.1.1",
+            "ipAdEntIfIndex": "1.3.6.1.2.1.4.20.1.2"
+          }
+        },
+        {
+          "name": "ipMib_ipAddressTable",
+          "attributes": null,
+          "values": {
+            "ipAddressIfIndex": "1.3.6.1.2.1.4.34.1.3",
+            "ipAddressType": "1.3.6.1.2.1.4.34.1.4",
+            "ipAddressAddr": "1.3.6.1.2.1.4.34.1.2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "OSPF",
+      "attributes": {
+        "poll_interval": "120"
+      },
+      "groups": [
+        {
+          "name": "ospfMib_ospfNbrTable",
+          "attributes": null,
+          "values": {
+            "ospfNbmaNbrPermanence": " 1.3.6.1.2.1.14.10.1.10",
+            "ospfNbmaNbrStatus": "1.3.6.1.2.1.14.10.1.9",
+            "ospfNbrEvents": "1.3.6.1.2.1.14.10.1.7",
+            "ospfNbrHelloSuppressed": " 1.3.6.1.2.1.14.10.1.11",
+            "ospfNbrIpAddr": " 1.3.6.1.2.1.14.10.1.1",
+            "ospfNbrLsRetransQLen": "1.3.6.1.2.1.14.10.1.8",
+            "ospfNbrOptions": " 1.3.6.1.2.1.14.10.1.4",
+            "ospfNbrPriority": " 1.3.6.1.2.1.14.10.1.5",
+            "ospfNbrRtrId": " 1.3.6.1.2.1.14.10.1.3",
+            "ospfNbrState": " 1.3.6.1.2.1.14.10.1.6"
+          }
+        },
+        {
+          "name": "ospfMib_ospfIfTable",
+          "attributes": null,
+          "values": {
+            "ospfIfAdminStat": " 1.3.6.1.2.1.14.7.1.5",
+            "ospfIfAreaId": "1.3.6.1.2.1.14.7.1.3",
+            "ospfIfAuthKey": "1.3.6.1.2.1.14.7.1.16",
+            "ospfIfAuthType": " 1.3.6.1.2.1.14.7.1.20",
+            "ospfIfBackupDesignatedRouter": " 1.3.6.1.2.1.14.7.1.14",
+            "ospfIfDemand": "1.3.6.1.2.1.14.7.1.19",
+            "ospfIfDesignatedRouter": " 1.3.6.1.2.1.14.7.1.13",
+            "ospfIfEvents": "1.3.6.1.2.1.14.7.1.15",
+            "ospfIfHelloInterval": " 1.3.6.1.2.1.14.7.1.9",
+            "ospfIfIpAddress": " 1.3.6.1.2.1.14.7.1.1",
+            "ospfIfMulticastForwarding": " 1.3.6.1.2.1.14.7.1.18",
+            "ospfIfPollInterval": "1.3.6.1.2.1.14.7.1.11",
+            "ospfIfRetransInterval": " 1.3.6.1.2.1.14.7.1.8",
+            "ospfIfRtrDeadInterval": "1.3.6.1.2.1.14.7.1.10",
+            "ospfIfRtrPriority": " 1.3.6.1.2.1.14.7.1.6",
+            "ospfIfState": " 1.3.6.1.2.1.14.7.1.12",
+            "ospfIfStatus": "1.3.6.1.2.1.14.7.1.17",
+            "ospfIfTransitDelay": " 1.3.6.1.2.1.14.7.1.7",
+            "ospfIfType": "1.3.6.1.2.1.14.7.1.4"
+          }
+        },
+        {
+          "name": "ospfMib_ospfAreaTable",
+          "attributes": null,
+          "values": {
+            "ospfAreaBdrRtrCount": "1.3.6.1.2.1.14.2.1.5",
+            "ospfAreaId": " 1.3.6.1.2.1.14.2.1.1",
+            "ospfAreaLsaCksumSum": " 1.3.6.1.2.1.14.2.1.8",
+            "ospfAreaLsaCount": " 1.3.6.1.2.1.14.2.1.7",
+            "ospfAreaStatus": " 1.3.6.1.2.1.14.2.1.10",
+            "ospfAreaSummary": " 1.3.6.1.2.1.14.2.1.9",
+            "ospfAsBdrRtrCount": " 1.3.6.1.2.1.14.2.1.6",
+            "ospfAuthType": " 1.3.6.1.2.1.14.2.1.2",
+            "ospfImportAsExtern": " 1.3.6.1.2.1.14.2.1.3",
+            "ospfSpfRuns": " 1.3.6.1.2.1.14.2.1.4"
+          }
+        },
+        {
+          "name": "ospfMib_ospfGeneralGroup",
+          "attributes": null,
+          "values": {
+            "ospfASBdrRtrStatus": "1.3.6.1.2.1.14.1.5",
+            "ospfAdminStat": "1.3.6.1.2.1.14.1.2",
+            "ospfAreaBdrRtrStatus": "1.3.6.1.2.1.14.1.4",
+            "ospfDemandExtensions": " 1.3.6.1.2.1.14.1.14",
+            "ospfExitOverflowInterval": "1.3.6.1.2.1.14.1.13",
+            "ospfExtLsdbLimit": " 1.3.6.1.2.1.14.1.11",
+            "ospfExternLsaCksumSum": " 1.3.6.1.2.1.14.1.7",
+            "ospfExternLsaCount": "1.3.6.1.2.1.14.1.6",
+            "ospfMulticastExtensions": "1.3.6.1.2.1.14.1.12",
+            "ospfOriginateNewLsas": "1.3.6.1.2.1.14.1.9",
+            "ospfRouterId": "1.3.6.1.2.1.14.1.1",
+            "ospfRxNewLsas": "1.3.6.1.2.1.14.1.10",
+            "ospfTOSSupport": "1.3.6.1.2.1.14.1.8",
+            "ospfVersionNumber": "1.3.6.1.2.1.14.1.3"
+          }
+        }
+      ]
+    }
+  ],
+  "uuid": "11a62201-b71d-4d0a-8de1-6c9a9e01ae0b",
+  "__s2_integration_name": "snmp",
+  "__s2_obj_version": "v1"
+}

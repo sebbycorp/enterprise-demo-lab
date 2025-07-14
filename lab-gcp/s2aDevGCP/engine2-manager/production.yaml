@@ -1,0 +1,19 @@
+config:
+# # Check https://github.com/selector-ai/s2ap/tree/master/services/engine2/manager/docs/README.md for more info
+  controller:
+    scan_interval: 180
+  inventory:
+    url: "http://s2-inventory-manager/v1"
+    http_timeout: "${ENGINE2_INVENTORY_HTTP_TIMEOUT:10}"
+  integrations:
+      snmp:
+      - class: "snmp-default"
+        inventory_filter: "capability == 'snmp' || deviceType == 'snmp'"
+      gnmi:
+      - class: "gnmi-default"
+        inventory_filter: "capability == 'gnmi' || deviceType == 'gnmi'"
+  distributor:
+      consistent_hash:
+        partition_count: 271
+        replication_factor: 20
+        load: 1.2

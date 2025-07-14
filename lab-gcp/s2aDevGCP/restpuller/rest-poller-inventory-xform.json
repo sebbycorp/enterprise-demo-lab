@@ -1,0 +1,68 @@
+{
+  "name": "inventory_xform",
+  "gzip_forward": false,
+  "labels": [
+    {
+      "label": "Label",
+      "method": "GET",
+      "url": "http://s2-inventory-manager/v1/inventory-items?type=customer_inventory",
+      "period": 120,
+      "insecure": false,
+      "username": "",
+      "password": "",
+      "rawdata": "",
+      "urlencoded": [],
+      "headers": [],
+      "attributes": [
+        {
+          "key": "__source__",
+          "value": "customer_inventory"
+        },
+        {
+          "key": "__destination__",
+          "value": "s2_device_inventory"
+        },
+        {
+          "key": "device",
+          "value": "device"
+        },
+        {
+          "key": "ipaddress",
+          "value": "ipaddress"
+        },
+        {
+          "key": "vendor",
+          "value": "vendor"
+        },
+        {
+          "key": "Profile",
+          "value": "profile"
+        },
+        {
+          "key": "pingProfile",
+          "value": "ping_profile"
+        },
+        {
+          "key": "model",
+          "value": "model"
+        },
+        {
+          "key": "site",
+          "value": "site"
+        },
+        {
+          "key": "region",
+          "value": "region"
+        },
+        {
+          "key": "city",
+          "value": "city"
+        },
+        {
+          "key": "role",
+          "value": "role"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,900 @@
+[
+    {
+        "type": "network-devices",
+        "fields": [
+            {
+                "name": "device",
+                "source": "deviceName"
+            },
+            {
+                "name": "ipaddress",
+                "source": "deviceIP"
+            },
+            {
+                "name": "port",
+                "source": "devicePort"
+            },
+            {
+                "name": "capability",
+                "source": "deviceType"
+            },
+            {
+                "name": "profile",
+                "source": "profile"
+            },
+            {
+                "name": "exclude",
+                "source": "exclude"
+            },
+            {
+                "name": "context",
+                "source": "context"
+            },
+            {
+                "name": "cluster_class",
+                "source": "cluster_class"
+            }
+        ],
+        "keys": [
+            "device",
+            "ipaddress",
+            "context"
+        ],
+        "tags": []
+    },
+    {
+        "type": "pingmesh",
+        "fields": [
+            {
+                "name": "address",
+                "source": "AgentIpAddress"
+            },
+            {
+                "name": "address6",
+                "source": "AgentIpAddress6"
+            },
+            {
+                "name": "hostname",
+                "source": "hostname"
+            },
+            {
+                "name": "caption",
+                "source": "caption"
+            },
+            {
+                "name": "pingType",
+                "source": "pingType"
+            },
+            {
+                "name": "cluster",
+                "source": "cluster"
+            },
+            {
+                "name": "rack",
+                "source": "rack"
+            },
+            {
+                "name": "suite",
+                "source": "suite"
+            },
+            {
+                "name": "site",
+                "source": "site"
+            },
+            {
+                "name": "lat",
+                "source": "lat"
+            },
+            {
+                "name": "long",
+                "source": "long"
+            },
+            {
+                "name": "city",
+                "source": "city"
+            },
+            {
+                "name": "state",
+                "source": "state"
+            },
+            {
+                "name": "country",
+                "source": "country"
+            },
+            {
+                "name": "continent",
+                "source": "continent"
+            },
+            {
+                "name": "meshtype",
+                "source": "meshtype"
+            },
+            {
+                "name": "tag1",
+                "source": "tag1"
+            },
+            {
+                "name": "tag2",
+                "source": "tag2"
+            },
+            {
+                "name": "role",
+                "source": "role"
+            }
+        ],
+        "keys": [
+            "address"
+        ],
+        "tags": []
+    },
+    {
+        "type": "resource-inventory",
+        "fields": [
+            {
+                "name": "server_name",
+                "source": "server_name"
+            },
+            {
+                "name": "server_ip",
+                "source": "server_ip"
+            },
+            {
+                "name": "server_function",
+                "source": "server_function"
+            },
+            {
+                "name": "engine_name",
+                "source": "engine_name"
+            },
+            {
+                "name": "tag",
+                "source": "tag"
+            },
+            {
+                "name": "role",
+                "source": "role"
+            }
+        ],
+        "keys": [
+            "server_name",
+            "engine_name"
+        ],
+        "tags": []
+    },
+    {
+        "type": "netbox",
+        "fields": [
+            {
+                "name": "device",
+                "source": "device_id"
+            }
+        ],
+        "keys": [
+            "device"
+        ],
+        "tags": []
+    },
+    {
+        "type": "s2_if_tags",
+        "fields": [
+            {
+                "name": "device",
+                "source": "device"
+            },
+            {
+                "name": "if_name",
+                "source": "if_name"
+            },
+            {
+                "name": "enabled",
+                "source": "enabled"
+            },
+            {
+                "name": "speed",
+                "source": "speed"
+            },
+            {
+                "name": "tags",
+                "source": "tags"
+            }
+        ],
+        "keys": [
+            "device",
+            "if_name"
+        ],
+        "tags": []
+    },
+    {
+        "type": "s2_bgp_tags",
+        "fields": [
+            {
+                "name": "device",
+                "source": "device"
+            },
+            {
+                "name": "neighbor_ip",
+                "source": "neighbor_ip"
+            },
+            {
+                "name": "tags",
+                "source": "tags"
+            }
+        ],
+        "keys": [
+            "device",
+            "neighbor_ip"
+        ],
+        "tags": []
+    },
+    {
+        "type": "s2_bgp_peers_db",
+        "fields": [
+            {
+                "name": "device",
+                "source": "device"
+            },
+            {
+                "name": "site",
+                "source": "site"
+            },
+            {
+                "name": "local_as",
+                "source": "local_as"
+            },
+            {
+                "name": "local_interface",
+                "source": "local_interface"
+            },
+            {
+                "name": "local_vrf",
+                "source": "local_vrf"
+            },
+            {
+                "name": "local_ip",
+                "source": "local_ip"
+            },
+            {
+                "name": "local_ipv6",
+                "source": "local_ipv6"
+            },
+            {
+                "name": "local_id",
+                "source": "local_id"
+            },
+            {
+                "name": "neighbor",
+                "source": "neighbor"
+            },
+            {
+                "name": "neighbor_id",
+                "source": "neighbor_id"
+            },
+            {
+                "name": "neighbor_ip",
+                "source": "neighbor_ip"
+            },
+            {
+                "name": "neighbor_ipv6",
+                "source": "neighbor_ipv6"
+            },
+            {
+                "name": "neighbor_as",
+                "source": "neighbor_as"
+            }
+        ],
+        "keys": [
+            "device",
+            "site",
+            "local_as",
+            "local_interface",
+            "local_vrf",
+            "local_ip",
+            "local_ipv6",
+            "local_id"
+        ],
+        "tags": []
+    },
+    {
+        "type": "s2_iconic_db",
+        "fields": [
+            {
+                "name": "role",
+                "source": "role"
+            },
+            {
+                "name": "icon",
+                "source": "icon"
+            },
+            {
+                "name": "color",
+                "source": "color"
+            }
+        ],
+        "keys": [
+            "role"
+        ],
+        "retention_in_days": 180.0,
+        "tags": []
+    },
+    {
+        "type": "probe-agents",
+        "fields": [
+            {
+                "name": "ipaddress",
+                "source": "ipaddress"
+            },
+            {
+                "name": "hostname",
+                "source": "hostname"
+            },
+            {
+                "name": "role",
+                "source": "role"
+            },
+            {
+                "name": "type",
+                "source": "type"
+            },
+            {
+                "name": "cluster",
+                "source": "cluster"
+            },
+            {
+                "name": "rack",
+                "source": "rack"
+            },
+            {
+                "name": "suite",
+                "source": "suite"
+            },
+            {
+                "name": "site",
+                "source": "site"
+            },
+            {
+                "name": "latitude",
+                "source": "latitude"
+            },
+            {
+                "name": "longitude",
+                "source": "longitude"
+            },
+            {
+                "name": "city",
+                "source": "city"
+            },
+            {
+                "name": "state",
+                "source": "state"
+            },
+            {
+                "name": "country",
+                "source": "country"
+            },
+            {
+                "name": "tag1",
+                "source": "tag1"
+            },
+            {
+                "name": "tag2",
+                "source": "tag2"
+            },
+            {
+                "name": "udfprofile",
+                "source": "udfprofile"
+            }
+        ],
+        "keys": [
+            "ipaddress"
+        ],
+        "tags": []
+    },
+    {
+        "type": "location_codes",
+        "fields": [
+            {
+                "name": "pop",
+                "source": "pop"
+            },
+            {
+                "name": "lat",
+                "source": "lat"
+            },
+            {
+                "name": "long",
+                "source": "long"
+            }
+        ],
+        "keys": [
+            "pop"
+        ],
+        "retention_in_days": 90.0,
+        "tags": []
+    },
+    {
+        "type": "model_platform_map",
+        "fields": [
+            {
+                "name": "vendor",
+                "source": "vendor"
+            },
+            {
+                "name": "model",
+                "source": "model"
+            },
+            {
+                "name": "platform",
+                "source": "platform"
+            },
+            {
+                "name": "os",
+                "source": "os"
+            },
+            {
+                "name": "sys_id",
+                "source": "sys_id"
+            }
+        ],
+        "keys": [
+            "vendor",
+            "model"
+        ],
+        "tags": []
+    },
+    {
+        "type": "s2_if_tags_classes",
+        "fields": [
+            {
+                "name": "type",
+                "source": "type"
+            },
+            {
+                "name": "tags_list",
+                "source": "tags_list"
+            }
+        ],
+        "keys": [
+            "type"
+        ],
+        "tags": []
+    },
+    {
+        "type": "customer_interface_inventory",
+        "fields": [
+            {
+                "name": "device",
+                "source": "device"
+            },
+            {
+                "name": "interface_name",
+                "source": "interface_name"
+            },
+            {
+                "name": "ip_address",
+                "source": "ip_address"
+            },
+            {
+                "name": "site",
+                "source": "site"
+            },
+            {
+                "name": "input_capacity",
+                "source": "input_capacity"
+            },
+            {
+                "name": "output_capacity",
+                "source": "output_capacity"
+            },
+            {
+                "name": "speed",
+                "source": "speed"
+            },
+            {
+                "name": "description",
+                "source": "description"
+            }
+        ],
+        "keys": [
+            "device",
+            "interface_name"
+        ],
+        "tags": []
+    },
+    {
+        "type": "s2_system_id",
+        "fields": [
+            {
+                "name": "sys_id",
+                "source": "sys_id"
+            },
+            {
+                "name": "name",
+                "source": "name"
+            }
+        ],
+        "keys": [
+            "sys_id"
+        ],
+        "tags": []
+    },
+    {
+        "type": "s2_products",
+        "fields": [
+            {
+                "name": "product_id",
+                "source": "product_id"
+            },
+            {
+                "name": "product_name",
+                "source": "product_name"
+            },
+            {
+                "name": "vendor",
+                "source": "vendor"
+            }
+        ],
+        "keys": [
+            "product_id"
+        ],
+        "tags": []
+    },
+    {
+        "type": "s2_vendors",
+        "fields": [
+            {
+                "name": "vendor_id",
+                "source": "vendor_id"
+            },
+            {
+                "name": "vendor_name",
+                "source": "vendor_name"
+            },
+            {
+                "name": "vendor_name_short",
+                "source": "vendor_name_short"
+            }
+        ],
+        "keys": [
+            "vendor_id"
+        ],
+        "retention_in_days": 180.0,
+        "tags": []
+    },
+    {
+        "type": "s2_isp_names",
+        "fields": [
+            {
+                "name": "name",
+                "source": "name"
+            },
+            {
+                "name": "caption",
+                "source": "caption"
+            }
+        ],
+        "keys": [
+            "name"
+        ],
+        "tags": []
+    },
+    {
+        "type": "customer_inventory",
+        "fields": [
+            {
+                "name": "device",
+                "source": "device"
+            },
+            {
+                "name": "ipaddress",
+                "source": "ipaddress"
+            },
+            {
+                "name": "vendor",
+                "source": "vendor"
+            },
+            {
+                "name": "pingProfile",
+                "source": "pingProfile"
+            },
+            {
+                "name": "Profile",
+                "source": "Profile"
+            },
+            {
+                "name": "ModelNo",
+                "source": "model"
+            },
+            {
+                "name": "Site",
+                "source": "site"
+            },
+            {
+                "name": "Region",
+                "source": "region"
+            },
+            {
+                "name": "city",
+                "source": "city"
+            },
+            {
+                "name": "role",
+                "source": "role"
+            }
+        ],
+        "keys": [
+            "device",
+            "ipaddress"
+        ],
+        "retention_in_days": 720,
+        "tags": []
+    },
+    {
+        "type": "s2_itsm_fields",
+        "fields": [
+            {
+                "name": "device",
+                "source": "device"
+            },
+            {
+                "name": "sub_category",
+                "source": "sub_category"
+            },
+            {
+                "name": "test1",
+                "source": "test1"
+            }
+        ],
+        "keys": [
+            "device"
+        ],
+        "retention_in_days": 720,
+        "tags": []
+    },
+    {
+        "type": "s2_products_s2ap",
+        "fields": [
+            {
+                "name": "product_id",
+                "source": "product_id"
+            },
+            {
+                "name": "product_name",
+                "source": "product_name"
+            },
+            {
+                "name": "vendor_id",
+                "source": "vendor_id"
+            },
+            {
+                "name": "vendor_name",
+                "source": "vendor_name"
+            },
+            {
+                "name": "product_category",
+                "source": "product_category"
+            },
+            {
+                "name": "platform",
+                "source": "platform"
+            },
+            {
+                "name": "snmp_profile",
+                "source": "snmp_profile"
+            },
+            {
+                "name": "test",
+                "source": "test"
+            },
+            {
+                "name": "test2",
+                "source": "test2"
+            }
+        ],
+        "keys": [
+            "product_id"
+        ],
+        "retention_in_days": 720,
+        "tags": []
+    },
+    {
+        "type": "s2_system_inventory",
+        "fields": [
+            {
+                "name": "device",
+                "source": "device"
+            },
+            {
+                "name": "derived_product",
+                "source": "derived_product"
+            },
+            {
+                "name": "derived_product_type",
+                "source": "derived_product_type"
+            },
+            {
+                "name": "derived_vendor",
+                "source": "derived_vendor"
+            },
+            {
+                "name": "sys_object_id",
+                "source": "sys_object_id"
+            },
+            {
+                "name": "sys_descr",
+                "source": "sys_descr"
+            },
+            {
+                "name": "sys_name",
+                "source": "sys_name"
+            },
+            {
+                "name": "sys_location",
+                "source": "sys_location"
+            },
+            {
+                "name": "sys_services",
+                "source": "sys_services"
+            },
+            {
+                "name": "sys_contact",
+                "source": "sys_contact"
+            },
+            {
+                "name": "derived_platform",
+                "source": "derived_platform"
+            },
+            {
+                "name": "derived_snmp_profile",
+                "source": "derived_snmp_profile"
+            },
+            {
+                "name": "derived_serial_number",
+                "source": "derived_serial_number"
+            },
+            {
+                "name": "derived_os",
+                "source": "derived_os"
+            },
+            {
+                "name": "derived_version",
+                "source": "derived_version"
+            }
+        ],
+        "keys": [
+            "device"
+        ],
+        "retention_in_days": 720.0,
+        "tags": []
+    },
+    {
+        "type": "s2_device_inventory",
+        "fields": [
+            {
+                "name": "device",
+                "source": "device"
+            },
+            {
+                "name": "ipaddress",
+                "source": "ipaddress"
+            },
+            {
+                "name": "role",
+                "source": "role"
+            },
+            {
+                "name": "org",
+                "source": "org"
+            },
+            {
+                "name": "platform",
+                "source": "platform"
+            },
+            {
+                "name": "os",
+                "source": "os"
+            },
+            {
+                "name": "version",
+                "source": "version"
+            },
+            {
+                "name": "type",
+                "source": "type"
+            },
+            {
+                "name": "serial_number",
+                "source": "serial_number"
+            },
+            {
+                "name": "model",
+                "source": "model"
+            },
+            {
+                "name": "vendor",
+                "source": "vendor"
+            },
+            {
+                "name": "site",
+                "source": "site"
+            },
+            {
+                "name": "region",
+                "source": "region"
+            },
+            {
+                "name": "city",
+                "source": "city"
+            },
+            {
+                "name": "state",
+                "source": "state"
+            },
+            {
+                "name": "country",
+                "source": "country"
+            },
+            {
+                "name": "continent",
+                "source": "continent"
+            },
+            {
+                "name": "lat",
+                "source": "lat"
+            },
+            {
+                "name": "long",
+                "source": "long"
+            },
+            {
+                "name": "tags",
+                "source": "tags"
+            },
+            {
+                "name": "profile",
+                "source": "profile"
+            },
+            {
+                "name": "cluster_class",
+                "source": "cluster_class"
+            },
+            {
+                "name": "ping_profile",
+                "source": "ping_profile"
+            },
+            {
+                "name": "icon",
+                "source": "icon"
+            },
+            {
+                "name": "color",
+                "source": "color"
+            },
+            {
+                "name": "product",
+                "source": "product"
+            },
+            {
+                "name": "site_type",
+                "source": "site_type"
+            },
+            {
+                "name": "org_domain",
+                "source": "org_domain"
+            },
+            {
+                "name": "description",
+                "source": "description"
+            },
+            {
+                "name": "location_address",
+                "source": "location_address"
+            }
+        ],
+        "keys": [
+            "device",
+            "ipaddress"
+        ],
+        "retention_in_days": 720,
+        "tags": []
+    }
+]
